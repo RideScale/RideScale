@@ -7,66 +7,37 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="hero">
-    <nav class="nav">
-      <div class="brand">Ride<span>Scale</span></div>
-      <a href="#contact" class="nav-btn">Contact Me</a>
-    </nav>
-
-    <section class="flyer-section">
-      <img src="flyer.png" alt="RideScale 3D printed creations flyer" class="flyer" />
-    </section>
-
-    <section class="button-section" aria-label="Product links">
-      <a href="#mini-bikes">Mini Bikes</a>
-      <a href="#mini-ebikes">Mini E-Bikes</a>
-      <a href="#fidgets">Fidgets</a>
-      <a href="#keychains">Keychains</a>
-      <a href="#desk-toys">Desk Toys</a>
-      <a href="#custom">Custom Prints</a>
-    </section>
+  <header class="topbar">
+    <div class="brand">Ride<span>Scale</span></div>
+    <a class="contact-btn" href="#contact">Contact</a>
   </header>
 
   <main>
-    <section class="products">
-      <h1>What I Make</h1>
-      <div class="product-grid">
-        <article id="mini-bikes">
-          <h2>Mini Bikes</h2>
-          <p>Small 3D printed bike models made for display, gifts, and collectors.</p>
-        </article>
-
-        <article id="mini-ebikes">
-          <h2>Mini E-Bikes</h2>
-          <p>Mini electric-bike inspired prints with a clean custom look.</p>
-        </article>
-
-        <article id="fidgets">
-          <h2>Fidgets</h2>
-          <p>Fun desk fidgets, moving parts, gears, and simple mechanical toys.</p>
-        </article>
-
-        <article id="keychains">
-          <h2>Keychains</h2>
-          <p>Custom name keychains, logo keychains, and small personalized gifts.</p>
-        </article>
-
-        <article id="desk-toys">
-          <h2>Desk Toys</h2>
-          <p>Cool small prints for desks, shelves, school, and room decorations.</p>
-        </article>
-
-        <article id="custom">
-          <h2>Custom Prints</h2>
-          <p>Have an idea? Send the size, color, and what you want made.</p>
-        </article>
+    <section class="hero">
+      <img class="flyer" src="flyer.png" alt="RideScale 3D printed creations flyer" />
+      <div class="button-row">
+        <a href="#mini-bikes">Mini Bikes</a>
+        <a href="#mini-ebikes">Mini E-Bikes</a>
+        <a href="#fidgets">Fidgets</a>
+        <a href="#keychains">Keychains</a>
+        <a href="#desk-toys">Desk Toys</a>
+        <a href="#custom">Custom Prints</a>
       </div>
+    </section>
+
+    <section class="products">
+      <article id="mini-bikes" class="product-card"><h2>Mini Bikes</h2><p>Small detailed bike models for display, gifts, and collectors.</p></article>
+      <article id="mini-ebikes" class="product-card"><h2>Mini E-Bikes</h2><p>Electric bike inspired mini models with a clean red and black display style.</p></article>
+      <article id="fidgets" class="product-card"><h2>Fidgets</h2><p>Fun desk fidgets, gears, spinners, and small mechanical toys.</p></article>
+      <article id="keychains" class="product-card"><h2>Keychains</h2><p>Custom name keychains, logos, initials, and small gifts.</p></article>
+      <article id="desk-toys" class="product-card"><h2>Desk Toys</h2><p>Cool small prints for desks, shelves, school, and room decoration.</p></article>
+      <article id="custom" class="product-card"><h2>Custom Prints</h2><p>Send an idea, name, logo, or simple design and ask if it can be printed.</p></article>
     </section>
 
     <section id="contact" class="contact">
       <h2>Ready to Order?</h2>
-      <p>Message me with what you want printed, the color, and the size.</p>
-      <p class="contact-line">Phone: (123) 456-7890 &nbsp; | &nbsp; Instagram: @yourshop</p>
+      <p>Message me with what you want, the size, and the color.</p>
+      <p class="small">Max print size: 150 × 150 × 150 mm</p>
     </section>
   </main>
 </body>
