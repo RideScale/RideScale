@@ -243,3 +243,9 @@ footer{
     gap:15px;
   }
 }
+.items {
+  white-space: nowrap;
+  overflow-x: auto;
+  font-size: 20px;
+  color: #c5c5c5;
+}
