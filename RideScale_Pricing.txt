@@ -1,29 +1,29 @@
 RideScale Pricing
 
 Mini Bikes
-Small (up to 50mm): $5
-Medium (up to 100mm): $10
-Large (up to 150mm): $15
+Small (up to 2in): $5
+Medium (up to 4in): $10
+Large (up to 6in): $15
 
 Mini E-Bikes
-Small (up to 50mm): $5
-Medium (up to 100mm): $10
-Large (up to 150mm): $15
+Small (up to 2in): $5
+Medium (up to 4in): $10
+Large (up to 6in): $15
 
 Fidgets
-Small (up to 50mm): $3
-Medium (up to 100mm): $6
-Large (up to 150mm): $10
+Small (up to 2in): $3
+Medium (up to 4in): $6
+Large (up to 6in): $10
 
 Keychains
-Small (up to 50mm): $3
-Medium (up to 100mm): $5
-Large (up to 150mm): $7
+Small (up to 2in): $3
+Medium (up to 4in): $5
+Large (up to 6in): $7
 
 Desk Toys
-Small (up to 50mm): $5
-Medium (up to 100mm): $8
-Large (up to 150mm): $12
+Small (up to 2in): $5
+Medium (up to 4in): $8
+Large (up to 6in): $12
 
 Custom Orders
 Send:
