@@ -1,14 +1,20 @@
-RideScale Website Files
+RideScale website files
 
-How to use:
-1. Open index.html to view the website.
-2. Edit index.html to change text.
-3. Edit style.css to change colors and layout.
-4. Put your real product pictures in the images folder.
-5. Replace the placeholder image file names in index.html if your pictures have different names.
+Use these files for GitHub Pages.
 
-Current website size text included:
+Upload these exact items to the main area of your GitHub repository:
+
+index.html
+style.css
+images folder
+
+Do not upload the ZIP file itself.
+Extract the ZIP first, then upload the files inside.
+
+To replace pictures:
+1. Open the images folder.
+2. Replace the placeholder SVG files with your real product images.
+3. Keep the same file names if you do not want to edit the HTML.
+
+Main product size shown on the site:
 150 × 150 × 150 mm
-
-For GitHub Pages:
-Upload index.html, style.css, and the images folder into your repository.
