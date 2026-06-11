@@ -255,3 +255,15 @@ footer{
   width: 180px;
   flex-shrink: 0;
 }
+.products .product-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  gap: 18px !important;
+  flex-wrap: nowrap !important;
+}
+
+.products .product-grid article {
+  width: 180px !important;
+  flex-shrink: 0 !important;
+}
