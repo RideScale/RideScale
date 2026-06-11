@@ -1,0 +1,6 @@
+<svg width="700" height="520" viewBox="0 0 700 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="700" height="520" rx="32" fill="#0f172a"/>
+  <circle cx="350" cy="235" r="120" fill="#1e293b" stroke="#38bdf8" stroke-width="5"/>
+  <text x="350" y="250" fill="#f8fafc" font-family="Arial" font-size="42" font-weight="800" text-anchor="middle">Photo 2</text>
+  <text x="350" y="405" fill="#cbd5e1" font-family="Arial" font-size="24" text-anchor="middle">Replace this image</text>
+</svg>
