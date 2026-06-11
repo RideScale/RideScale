@@ -1,0 +1,10 @@
+<svg width="900" height="700" viewBox="0 0 900 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="700" rx="40" fill="#0f172a"/>
+  <rect x="190" y="160" width="520" height="360" rx="28" fill="#1e293b" stroke="#38bdf8" stroke-width="6"/>
+  <path d="M270 460H630" stroke="#38bdf8" stroke-width="10" stroke-linecap="round"/>
+  <path d="M320 390C360 330 420 300 500 330C560 352 590 390 610 430" stroke="#e2e8f0" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="350" cy="450" r="38" fill="#020617" stroke="#e2e8f0" stroke-width="10"/>
+  <circle cx="570" cy="450" r="38" fill="#020617" stroke="#e2e8f0" stroke-width="10"/>
+  <text x="450" y="105" fill="#f8fafc" font-family="Arial" font-size="56" font-weight="800" text-anchor="middle">RideScale</text>
+  <text x="450" y="590" fill="#cbd5e1" font-family="Arial" font-size="32" text-anchor="middle">150 × 150 × 150 mm</text>
+</svg>
