@@ -243,9 +243,15 @@ footer{
     gap:15px;
   }
 }
-.items {
-  white-space: nowrap;
-  overflow-x: auto;
-  font-size: 20px;
-  color: #c5c5c5;
+.product-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: nowrap !important;
+}
+
+.product-grid article {
+  width: 180px;
+  flex-shrink: 0;
 }
