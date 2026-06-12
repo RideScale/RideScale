@@ -52,7 +52,7 @@
 
       <label>
         Product / Order Type
-        <select name="Product or Order Type" required>
+        <select id="orderTypeSelect" name="Product or Order Type" required>
           <option value="Cart Order">Cart Order</option>
           <option value="Mini Bikes">Mini Bikes</option>
           <option value="Mini E-Bikes">Mini E-Bikes</option>
@@ -63,9 +63,9 @@
         </select>
       </label>
 
-      <section class="bike-color-box">
+      <section id="bikeColorBox" class="bike-color-box" style="display:none;">
         <h2>Mini Bike / Mini E-Bike Colors</h2>
-        <p>Only fill this out if your order includes a Mini Bike or Mini E-Bike.</p>
+        <p>This section only shows when your order includes a Mini Bike or Mini E-Bike.</p>
 
         <label>
           Frame Color
@@ -130,13 +130,41 @@
 
     let cartBaseTotal = 0;
 
+    function cartHasBike(cart) {
+      return cart.some(item => item.product === "Mini Bikes" || item.product === "Mini E-Bikes");
+    }
+
+    function selectedOrderTypeIsBike() {
+      const orderType = document.getElementById("orderTypeSelect");
+      if (!orderType) return false;
+      return orderType.value === "Mini Bikes" || orderType.value === "Mini E-Bikes";
+    }
+
+    function updateBikeColorVisibility() {
+      const cart = getCart();
+      const box = document.getElementById("bikeColorBox");
+      if (!box) return;
+
+      const shouldShow = cartHasBike(cart) || selectedOrderTypeIsBike();
+      box.style.display = shouldShow ? "block" : "none";
+
+      if (!shouldShow) {
+        const customColorInput = document.getElementById("customColorInput");
+        if (customColorInput) customColorInput.value = "";
+      }
+
+      updateFinalTotal();
+    }
+
     function updateFinalTotal() {
       const customColorInput = document.getElementById("customColorInput");
       const finalTotalBox = document.getElementById("finalTotal");
       const customColorFeeInput = document.getElementById("customColorFeeInput");
       const finalTotalInput = document.getElementById("finalTotalInput");
+      const bikeBox = document.getElementById("bikeColorBox");
 
-      const hasCustomColor = customColorInput && customColorInput.value.trim().length > 0;
+      const bikeBoxVisible = bikeBox && bikeBox.style.display !== "none";
+      const hasCustomColor = bikeBoxVisible && customColorInput && customColorInput.value.trim().length > 0;
       const customFee = hasCustomColor ? 25 : 0;
       const finalTotal = cartBaseTotal + customFee;
 
@@ -152,6 +180,7 @@
       const summaryInput = document.getElementById("cartSummaryInput");
       const totalInput = document.getElementById("cartTotalInput");
       const customColorInput = document.getElementById("customColorInput");
+      const orderTypeSelect = document.getElementById("orderTypeSelect");
 
       if (!itemsBox || !totalBox) return;
 
@@ -161,7 +190,7 @@
         totalBox.textContent = "$0";
         if (summaryInput) summaryInput.value = "No cart items found.";
         if (totalInput) totalInput.value = "$0";
-        updateFinalTotal();
+        updateBikeColorVisibility();
         return;
       }
 
@@ -192,7 +221,11 @@
         customColorInput.addEventListener("input", updateFinalTotal);
       }
 
-      updateFinalTotal();
+      if (orderTypeSelect) {
+        orderTypeSelect.addEventListener("change", updateBikeColorVisibility);
+      }
+
+      updateBikeColorVisibility();
     }
 
     document.addEventListener("DOMContentLoaded", loadCheckoutSummary);
