@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Request Form | RideScale</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="brand">Ride<span>Scale</span></div>
+      <a href="index.html">Home</a>
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <h1><span>Order</span> Request</h1>
+    <p class="note">Choose a product, size, and add any notes. If this is custom, upload a picture or file.</p>
+
+    <form class="custom-form" action="https://formsubmit.co/Origami@post.com" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_subject" value="New RideScale Order Request">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" id="cartSummaryInput" name="Cart Summary" value="">
+      <input type="hidden" id="cartTotalInput" name="Cart Total" value="">
+
+      <label>
+        Name
+        <input type="text" name="Name" placeholder="Your name" required>
+      </label>
+
+      <label>
+        Email
+        <input type="email" name="Email" placeholder="your@email.com" required>
+      </label>
+
+      <label>
+        Phone Number
+        <input type="tel" name="Phone Number" placeholder="(123) 456-7890">
+      </label>
+
+      <label>
+        What product do you want?
+        <select name="Product" required>
+          <option value="">Choose a product</option>
+          <option value="Mini Bikes">Mini Bikes</option>
+          <option value="Mini E-Bikes">Mini E-Bikes</option>
+          <option value="Fidgets">Fidgets</option>
+          <option value="Keychains">Keychains</option>
+          <option value="Desk Toys">Desk Toys</option>
+          <option value="Custom Print">Custom Print</option>
+        </select>
+      </label>
+
+      <label>
+        Size
+        <select name="Size" required>
+          <option value="">Choose a size</option>
+          <option value="Small, up to 2 × 2 × 2 in">Small, up to 2 × 2 × 2 in</option>
+          <option value="Medium, up to 4 × 4 × 4 in">Medium, up to 4 × 4 × 4 in</option>
+          <option value="Large, up to 6 × 6 × 6 in">Large, up to 6 × 6 × 6 in</option>
+        </select>
+      </label>
+
+      <label>
+        Custom Print Details
+        <textarea name="Custom Print Details" rows="5" placeholder="Only fill this out if you selected Custom Print. Describe what you want made."></textarea>
+      </label>
+
+      <label>
+        Upload File or Image
+        <input type="file" name="Attachment" accept="image/*,.stl,.3mf,.obj,.step,.stp,.pdf">
+      </label>
+
+      <label>
+        Notes
+        <textarea name="Notes" rows="4" placeholder="Color, deadline, special details, quantity, or anything else"></textarea>
+      </label>
+
+      <section class="checkout-summary">
+        <h2>Checkout Summary</h2>
+        <div id="checkoutItems">No cart items found.</div>
+        <div class="checkout-total">Total: <strong id="checkoutTotal">$0</strong></div>
+      </section>
+
+      <button type="submit">Submit Request</button>
+    </form>
+
+    <p class="note small-note">
+      First time only: check Origami@post.com for a FormSubmit confirmation email.
+    </p>
+  </main>
+
+  <footer>© 2026 RideScale.</footer>
+
+  <script>
+    function getCart() {
+      return JSON.parse(localStorage.getItem("ridescaleCart") || "[]");
+    }
+
+    function loadCheckoutSummary() {
+      const cart = getCart();
+      const itemsBox = document.getElementById("checkoutItems");
+      const totalBox = document.getElementById("checkoutTotal");
+      const summaryInput = document.getElementById("cartSummaryInput");
+      const totalInput = document.getElementById("cartTotalInput");
+
+      if (!itemsBox || !totalBox) return;
+
+      if (!cart.length) {
+        itemsBox.innerHTML = "<p>No cart items found. You can still submit a custom request.</p>";
+        totalBox.textContent = "$0";
+        if (summaryInput) summaryInput.value = "No cart items found.";
+        if (totalInput) totalInput.value = "$0";
+        return;
+      }
+
+      let total = 0;
+
+      const summaryLines = cart.map((item, index) => {
+        total += Number(item.price);
+        const model = item.model ? " - " + item.model : "";
+        return `${index + 1}. ${item.product}${model} - ${item.size} - ${item.dimensions} - $${item.price}`;
+      });
+
+      itemsBox.innerHTML = cart.map(item => {
+        const model = item.model ? "<br>" + item.model : "";
+        return `
+          <div class="checkout-item">
+            <span>${item.product}${model}<br>${item.size}</span>
+            <strong>$${item.price}</strong>
+          </div>
+        `;
+      }).join("");
+
+      totalBox.textContent = `$${total}`;
+
+      if (summaryInput) summaryInput.value = summaryLines.join("\n");
+      if (totalInput) totalInput.value = `$${total}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", loadCheckoutSummary);
+  </script>
+</body>
+</html>
