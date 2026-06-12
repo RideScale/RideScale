@@ -52,14 +52,12 @@ function setupSizePicker(productName) {
 
   function showMessage(message) {
     let messageBox = document.getElementById("cartMessage");
-
     if (!messageBox) {
       messageBox = document.createElement("p");
       messageBox.id = "cartMessage";
       messageBox.className = "cart-message";
       addBtn.parentElement.insertAdjacentElement("afterend", messageBox);
     }
-
     messageBox.textContent = message;
   }
 
@@ -67,22 +65,15 @@ function setupSizePicker(productName) {
     button.addEventListener("click", () => {
       imageButtons.forEach(b => b.classList.remove("active"));
       button.classList.add("active");
-
       selectedModel = button.dataset.model;
-
-      if (modelText) {
-        modelText.innerHTML = `Selected Model: <strong>${selectedModel}</strong>`;
-      }
-
+      if (modelText) modelText.innerHTML = `Selected Model: <strong>${selectedModel}</strong>`;
       showMessage("");
     });
   });
 
   fidgetRadios.forEach(radio => {
     radio.addEventListener("change", () => {
-      if (customFidgetBox) {
-        customFidgetBox.style.display = radio.value === "Custom Fidget" && radio.checked ? "block" : "none";
-      }
+      if (customFidgetBox) customFidgetBox.style.display = radio.value === "Custom Fidget" && radio.checked ? "block" : "none";
       if (selected && productName === "Fidgets") selected.model = getFidgetType();
       showMessage("");
     });
@@ -90,9 +81,7 @@ function setupSizePicker(productName) {
 
   keychainRadios.forEach(radio => {
     radio.addEventListener("change", () => {
-      if (customKeychainBox) {
-        customKeychainBox.style.display = radio.value === "Custom Keychain" && radio.checked ? "block" : "none";
-      }
+      if (customKeychainBox) customKeychainBox.style.display = radio.value === "Custom Keychain" && radio.checked ? "block" : "none";
       if (selected && productName === "Keychains") selected.model = getKeychainType();
       showMessage("");
     });
@@ -161,7 +150,6 @@ function renderCart() {
 
   container.innerHTML = cart.map((item, index) => {
     total += item.price;
-
     const modelLine = item.model ? `<br>${item.model}` : "";
 
     return `
