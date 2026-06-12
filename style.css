@@ -1031,3 +1031,11 @@ footer {
     padding: 20px !important;
   }
 }
+/* Fix homepage RideScale title colors */
+.hero h1 {
+  color: #ffffff !important;
+}
+
+.hero h1 span {
+  color: #ff1a1a !important;
+}
