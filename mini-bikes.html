@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Bikes | RideScale</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="brand">Ride<span>Scale</span></div>
+      <a href="index.html">Home</a>
+      <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <h1><span>Mini Bikes</span> Details</h1>
+
+    <section class="product-gallery">
+      <img src="mini-bike-1.png" alt="White 3D printed BMX style mini bike">
+      <img src="mini-bike-2.png" alt="White 3D printed mountain bike style mini bike">
+    </section>
+
+    <p>Choose a size to see the price, then add it to your cart.</p>
+
+    <section class="size-picker">
+      <h2>Pick Your Size</h2>
+      <div class="size-options">
+        <button class="size-option" data-size="Small" data-dimensions="Up to 2 × 2 × 2 in" data-price="5">
+          <strong>Small</strong>
+          <span>Up to 2 × 2 × 2 in</span>
+          <b>$5</b>
+        </button>
+        <button class="size-option" data-size="Medium" data-dimensions="Up to 4 × 4 × 4 in" data-price="10">
+          <strong>Medium</strong>
+          <span>Up to 4 × 4 × 4 in</span>
+          <b>$10</b>
+        </button>
+        <button class="size-option" data-size="Large" data-dimensions="Up to 6 × 6 × 6 in" data-price="15">
+          <strong>Large</strong>
+          <span>Up to 6 × 6 × 6 in</span>
+          <b>$15</b>
+        </button>
+      </div>
+
+      <p id="selectedPrice" class="selected-price">Selected: <strong>None</strong></p>
+
+      <div class="cart-actions">
+        <button id="addToCartBtn" class="cart-button" disabled>Add to Cart</button>
+        <a class="cart-link" href="cart.html">View Cart</a>
+        <a class="cart-link" href="custom-orders.html">Request a Custom Print</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 RideScale.</footer>
+  <script src="cart.js"></script>
+  <script>setupSizePicker("Mini Bikes");</script>
+</body>
+</html>
