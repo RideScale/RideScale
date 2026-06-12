@@ -460,3 +460,25 @@ footer {
 .checkout-total strong {
   color: #ff1a1a;
 }
+/* Mini Bike Photo Gallery */
+.product-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 900px;
+  margin: 25px auto 35px;
+}
+
+.product-gallery img {
+  width: 100%;
+  border-radius: 16px;
+  border: 2px solid #ff1a1a;
+  background: #101010;
+  box-shadow: 0 0 30px rgba(255, 26, 26, .18);
+}
+
+@media (max-width: 700px) {
+  .product-gallery {
+    grid-template-columns: 1fr;
+  }
+}
