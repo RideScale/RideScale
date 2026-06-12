@@ -661,3 +661,22 @@ footer {
 #finalTotal {
   color: #ff1a1a;
 }
+.nav a {
+  color: #ffffff !important;
+  font-family: 'Oswald', Arial, sans-serif !important;
+  font-size: 18px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  background: transparent !important;
+  border: 2px solid #ff1a1a;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-left: 10px;
+}
+
+.nav a:hover {
+  background: #ff1a1a !important;
+  color: #ffffff !important;
+}
