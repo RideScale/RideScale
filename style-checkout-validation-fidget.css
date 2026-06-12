@@ -1,0 +1,13 @@
+/* Checkout validation and fidget color add-on */
+#fidgetColorBox h2 {
+  color: #ff1a1a;
+}
+
+.custom-form input:invalid,
+.custom-form select:invalid {
+  border-color: #ff1a1a;
+}
+
+.custom-form input:valid {
+  border-color: #2d2d2d;
+}
