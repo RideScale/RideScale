@@ -17,7 +17,7 @@
 
   <main class="page">
     <h1><span>Checkout</span> Request</h1>
-    <p class="note">Your cart items and total are included below. Fill out your contact info and submit the request.</p>
+    <p class="note">Orders are paid in cash. I need your location so we can arrange in-person pickup or delivery.</p>
 
     <form class="custom-form" action="https://formsubmit.co/Origami@post.com" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="_subject" value="New RideScale Checkout Request">
@@ -33,6 +33,7 @@
         <div id="checkoutItems">No cart items found.</div>
         <div class="checkout-total">Cart Total: <strong id="checkoutTotal">$0</strong></div>
         <div class="checkout-total">Final Total: <strong id="finalTotal">$0</strong></div>
+        <p class="cash-note">Payment method: <strong>Cash in person</strong></p>
       </section>
 
       <label>
@@ -55,6 +56,31 @@
           pattern="[0-9]{3}[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}"
           title="Enter a valid 10-digit phone number, like 123-456-7890">
       </label>
+
+      <section class="location-box">
+        <h2>Pickup / Delivery Location</h2>
+        <p>Choose how you want to share your location.</p>
+
+        <label>
+          Location Option
+          <select id="locationOption" name="Location Option" required>
+            <option value="">Choose one</option>
+            <option value="I will enter my address below">I will enter my address below</option>
+            <option value="I will email my location to Origami@post.com">I will email my location to Origami@post.com</option>
+            <option value="I will arrange location after you contact me">I will arrange location after you contact me</option>
+          </select>
+        </label>
+
+        <label id="addressField">
+          Address or General Location
+          <textarea name="Address or General Location" rows="3" placeholder="Example: neighborhood, school, pickup area, or address"></textarea>
+        </label>
+
+        <p class="location-email-note">
+          You can also email your location or pickup details to:
+          <strong>Origami@post.com</strong>
+        </p>
+      </section>
 
       <label>
         Product / Order Type
@@ -207,6 +233,15 @@
       if (finalTotalInput) finalTotalInput.value = `$${finalTotal}`;
     }
 
+    function updateLocationOption() {
+      const locationOption = document.getElementById("locationOption");
+      const addressField = document.getElementById("addressField");
+      if (!locationOption || !addressField) return;
+
+      const showAddress = locationOption.value === "I will enter my address below";
+      addressField.style.display = showAddress ? "block" : "none";
+    }
+
     function loadCheckoutSummary() {
       const cart = getCart();
       const itemsBox = document.getElementById("checkoutItems");
@@ -215,6 +250,7 @@
       const totalInput = document.getElementById("cartTotalInput");
       const customColorInput = document.getElementById("customColorInput");
       const orderTypeSelect = document.getElementById("orderTypeSelect");
+      const locationOption = document.getElementById("locationOption");
 
       if (!itemsBox || !totalBox) return;
 
@@ -225,6 +261,7 @@
         if (summaryInput) summaryInput.value = "No cart items found.";
         if (totalInput) totalInput.value = "$0";
         updateProductVisibility();
+        updateLocationOption();
         return;
       }
 
@@ -259,7 +296,12 @@
         orderTypeSelect.addEventListener("change", updateProductVisibility);
       }
 
+      if (locationOption) {
+        locationOption.addEventListener("change", updateLocationOption);
+      }
+
       updateProductVisibility();
+      updateLocationOption();
     }
 
     document.addEventListener("DOMContentLoaded", loadCheckoutSummary);
