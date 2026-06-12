@@ -37,7 +37,7 @@
 
       <label>
         Name
-        <input type="text" name="Name" placeholder="Your name" required>
+        <input type="text" name="Name" placeholder="Your name" required minlength="2">
       </label>
 
       <label>
@@ -47,7 +47,13 @@
 
       <label>
         Phone Number
-        <input type="tel" name="Phone Number" placeholder="(123) 456-7890">
+        <input
+          type="tel"
+          name="Phone Number"
+          placeholder="123-456-7890"
+          required
+          pattern="[0-9]{3}[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}"
+          title="Enter a valid 10-digit phone number, like 123-456-7890">
       </label>
 
       <label>
@@ -98,6 +104,31 @@
         </label>
       </section>
 
+      <section id="fidgetColorBox" class="bike-color-box" style="display:none;">
+        <h2>Fidget Color</h2>
+        <p>This section only shows when your order includes a Fidget.</p>
+
+        <label>
+          What color fidget do you want?
+          <select name="Fidget Color">
+            <option value="">Choose fidget color</option>
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Red">Red</option>
+            <option value="Blue">Blue</option>
+            <option value="Green">Green</option>
+            <option value="Purple">Purple</option>
+            <option value="Orange">Orange</option>
+            <option value="Other / Ask First">Other / Ask First</option>
+          </select>
+        </label>
+
+        <label>
+          Other Fidget Color Request
+          <input type="text" name="Other Fidget Color Request" placeholder="Optional, type another color if needed">
+        </label>
+      </section>
+
       <label>
         Custom Print Details
         <textarea name="Custom Print Details" rows="5" placeholder="Only fill this out if you want something custom made."></textarea>
@@ -130,25 +161,28 @@
 
     let cartBaseTotal = 0;
 
-    function cartHasBike(cart) {
-      return cart.some(item => item.product === "Mini Bikes" || item.product === "Mini E-Bikes");
+    function cartHasProduct(cart, productName) {
+      return cart.some(item => item.product === productName);
     }
 
-    function selectedOrderTypeIsBike() {
+    function selectedOrderTypeIs(productName) {
       const orderType = document.getElementById("orderTypeSelect");
       if (!orderType) return false;
-      return orderType.value === "Mini Bikes" || orderType.value === "Mini E-Bikes";
+      return orderType.value === productName;
     }
 
-    function updateBikeColorVisibility() {
+    function updateProductVisibility() {
       const cart = getCart();
-      const box = document.getElementById("bikeColorBox");
-      if (!box) return;
+      const bikeBox = document.getElementById("bikeColorBox");
+      const fidgetBox = document.getElementById("fidgetColorBox");
 
-      const shouldShow = cartHasBike(cart) || selectedOrderTypeIsBike();
-      box.style.display = shouldShow ? "block" : "none";
+      const showBike = cartHasProduct(cart, "Mini Bikes") || cartHasProduct(cart, "Mini E-Bikes") || selectedOrderTypeIs("Mini Bikes") || selectedOrderTypeIs("Mini E-Bikes");
+      const showFidget = cartHasProduct(cart, "Fidgets") || selectedOrderTypeIs("Fidgets");
 
-      if (!shouldShow) {
+      if (bikeBox) bikeBox.style.display = showBike ? "block" : "none";
+      if (fidgetBox) fidgetBox.style.display = showFidget ? "block" : "none";
+
+      if (!showBike) {
         const customColorInput = document.getElementById("customColorInput");
         if (customColorInput) customColorInput.value = "";
       }
@@ -190,7 +224,7 @@
         totalBox.textContent = "$0";
         if (summaryInput) summaryInput.value = "No cart items found.";
         if (totalInput) totalInput.value = "$0";
-        updateBikeColorVisibility();
+        updateProductVisibility();
         return;
       }
 
@@ -222,10 +256,10 @@
       }
 
       if (orderTypeSelect) {
-        orderTypeSelect.addEventListener("change", updateBikeColorVisibility);
+        orderTypeSelect.addEventListener("change", updateProductVisibility);
       }
 
-      updateBikeColorVisibility();
+      updateProductVisibility();
     }
 
     document.addEventListener("DOMContentLoaded", loadCheckoutSummary);
