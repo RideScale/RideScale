@@ -16,6 +16,9 @@ function setupSizePicker(productName) {
   const customFidgetText = document.getElementById("customFidgetText");
   const customKeychainBox = document.getElementById("customKeychainBox");
   const customKeychainText = document.getElementById("customKeychainText");
+  const nameKeychainBox = document.getElementById("nameKeychainBox");
+  const keychainNameInput = document.getElementById("keychainNameInput");
+  const keychainQuantityInput = document.getElementById("keychainQuantityInput");
 
   const priceText = document.getElementById("selectedPrice");
   const modelText = document.getElementById("selectedModel");
@@ -23,6 +26,12 @@ function setupSizePicker(productName) {
 
   let selected = null;
   let selectedModel = imageButtons.length ? imageButtons[0].dataset.model : "";
+
+  function getQuantity() {
+    if (productName !== "Keychains" || !keychainQuantityInput) return 1;
+    const qty = Number(keychainQuantityInput.value);
+    return qty && qty > 0 ? qty : 1;
+  }
 
   function getFidgetType() {
     const checked = document.querySelector('input[name="fidgetType"]:checked');
@@ -37,10 +46,17 @@ function setupSizePicker(productName) {
   function getKeychainType() {
     const checked = document.querySelector('input[name="keychainType"]:checked');
     if (!checked) return "";
+
+    if (checked.value === "Name Keychain") {
+      const name = keychainNameInput ? keychainNameInput.value.trim() : "";
+      return name ? `Name Keychain: ${name}` : "Name Keychain";
+    }
+
     if (checked.value === "Custom Keychain") {
       const customText = customKeychainText ? customKeychainText.value.trim() : "";
       return customText ? `Custom Keychain: ${customText}` : "Custom Keychain";
     }
+
     return checked.value;
   }
 
@@ -50,7 +66,7 @@ function setupSizePicker(productName) {
     return selectedModel;
   }
 
-  function showMessage(message) {
+  function showMessage(message, isWarning = false) {
     let messageBox = document.getElementById("cartMessage");
     if (!messageBox) {
       messageBox = document.createElement("p");
@@ -58,7 +74,30 @@ function setupSizePicker(productName) {
       messageBox.className = "cart-message";
       addBtn.parentElement.insertAdjacentElement("afterend", messageBox);
     }
+
     messageBox.textContent = message;
+    messageBox.classList.toggle("small-quality-warning", isWarning);
+  }
+
+  function showSmallQualityWarning(size) {
+    if ((productName === "Fidgets" || productName === "Keychains") && size === "Small") {
+      showMessage("Note: Small size is cheaper, but it may be lower quality and more likely to break because it is very small.", true);
+    } else {
+      showMessage("");
+    }
+  }
+
+  function updateKeychainBoxes() {
+    const checked = document.querySelector('input[name="keychainType"]:checked');
+    if (!checked) return;
+
+    if (nameKeychainBox) {
+      nameKeychainBox.style.display = checked.value === "Name Keychain" ? "block" : "none";
+    }
+
+    if (customKeychainBox) {
+      customKeychainBox.style.display = checked.value === "Custom Keychain" ? "block" : "none";
+    }
   }
 
   imageButtons.forEach(button => {
@@ -81,11 +120,31 @@ function setupSizePicker(productName) {
 
   keychainRadios.forEach(radio => {
     radio.addEventListener("change", () => {
-      if (customKeychainBox) customKeychainBox.style.display = radio.value === "Custom Keychain" && radio.checked ? "block" : "none";
-      if (selected && productName === "Keychains") selected.model = getKeychainType();
+      updateKeychainBoxes();
+      if (selected && productName === "Keychains") {
+        selected.model = getKeychainType();
+        selected.quantity = getQuantity();
+        selected.price = Number(selected.unitPrice || selected.price) * selected.quantity;
+      }
       showMessage("");
     });
   });
+
+  if (keychainNameInput) {
+    keychainNameInput.addEventListener("input", () => {
+      if (selected && productName === "Keychains") selected.model = getKeychainType();
+    });
+  }
+
+  if (keychainQuantityInput) {
+    keychainQuantityInput.addEventListener("input", () => {
+      if (selected && productName === "Keychains") {
+        selected.quantity = getQuantity();
+        selected.price = Number(selected.unitPrice) * selected.quantity;
+        priceText.innerHTML = `Selected Size: <strong>${selected.size}</strong> - $${selected.unitPrice} each × ${selected.quantity} = $${selected.price}`;
+      }
+    });
+  }
 
   if (customFidgetText) {
     customFidgetText.addEventListener("input", () => {
@@ -104,17 +163,27 @@ function setupSizePicker(productName) {
       buttons.forEach(b => b.classList.remove("active"));
       button.classList.add("active");
 
+      const unitPrice = Number(button.dataset.price);
+      const qty = getQuantity();
+
       selected = {
         product: productName,
         model: getCurrentModel(),
         size: button.dataset.size,
         dimensions: button.dataset.dimensions,
-        price: Number(button.dataset.price)
+        unitPrice: unitPrice,
+        quantity: qty,
+        price: productName === "Keychains" ? unitPrice * qty : unitPrice
       };
 
-      priceText.innerHTML = `Selected Size: <strong>${selected.size}</strong> - $${selected.price}`;
+      if (productName === "Keychains") {
+        priceText.innerHTML = `Selected Size: <strong>${selected.size}</strong> - $${unitPrice} each × ${qty} = $${selected.price}`;
+      } else {
+        priceText.innerHTML = `Selected Size: <strong>${selected.size}</strong> - $${selected.price}`;
+      }
+
       addBtn.disabled = false;
-      showMessage("");
+      showSmallQualityWarning(selected.size);
     });
   });
 
@@ -126,13 +195,21 @@ function setupSizePicker(productName) {
 
     selected.model = getCurrentModel();
 
+    if (productName === "Keychains") {
+      selected.quantity = getQuantity();
+      selected.price = Number(selected.unitPrice) * selected.quantity;
+    }
+
     const cart = getCart();
     cart.push(selected);
     saveCart(cart);
 
     const displayName = selected.model ? `${selected.product} - ${selected.model}` : selected.product;
-    showMessage(`${displayName} ${selected.size} added to cart.`);
+    const qtyText = selected.quantity && selected.quantity > 1 ? ` Quantity: ${selected.quantity}.` : "";
+    showMessage(`${displayName} ${selected.size} added to cart.${qtyText}`);
   });
+
+  updateKeychainBoxes();
 }
 
 function renderCart() {
@@ -149,14 +226,17 @@ function renderCart() {
   let total = 0;
 
   container.innerHTML = cart.map((item, index) => {
-    total += item.price;
+    total += Number(item.price);
+
     const modelLine = item.model ? `<br>${item.model}` : "";
+    const qtyLine = item.quantity && item.quantity > 1 ? `<br>Quantity: ${item.quantity}` : "";
+    const unitLine = item.unitPrice && item.quantity && item.quantity > 1 ? `<br>$${item.unitPrice} each` : "";
 
     return `
       <div class="cart-item">
         <div>
           <strong>${item.product}</strong>${modelLine}<br>
-          ${item.size} - ${item.dimensions}
+          ${item.size} - ${item.dimensions}${qtyLine}${unitLine}
         </div>
         <div>$${item.price}</div>
         <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
