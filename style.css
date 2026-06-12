@@ -532,3 +532,39 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+/* Cart to Checkout Summary Styling */
+.checkout-summary {
+  background: #050505;
+  border: 2px solid #ff1a1a;
+  border-radius: 14px;
+  padding: 20px;
+  margin: 24px 0;
+}
+
+.checkout-summary h2 {
+  margin-top: 0;
+  color: #ff1a1a;
+}
+
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid #2d2d2d;
+  padding: 10px 0;
+  color: #ffffff;
+}
+
+.checkout-item:last-child {
+  border-bottom: none;
+}
+
+.checkout-total {
+  margin-top: 18px;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.checkout-total strong {
+  color: #ff1a1a;
+}
