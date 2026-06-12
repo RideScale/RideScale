@@ -874,3 +874,49 @@ footer {
 .location-email-note strong {
   color: #ff1a1a;
 }
+/* Softer checkout colors */
+.custom-form,
+.checkout-summary,
+.location-box,
+.bike-color-box,
+#fidgetColorBox {
+  background: #151515 !important;
+  border: 1px solid #ffffff !important;
+}
+
+.checkout-summary h2,
+.location-box h2,
+.bike-color-box h2,
+#fidgetColorBox h2 {
+  color: #ffffff !important;
+}
+
+.custom-form label,
+.checkout-item,
+.checkout-total,
+.cash-note {
+  color: #ffffff !important;
+}
+
+.custom-form input,
+.custom-form textarea,
+.custom-form select {
+  border: 1px solid #555 !important;
+}
+
+.custom-form input:focus,
+.custom-form textarea:focus,
+.custom-form select:focus {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(255,255,255,.25) !important;
+}
+
+.custom-form button {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.custom-form button:hover {
+  background: #ff1a1a !important;
+  color: #ffffff !important;
+}
