@@ -1,0 +1,11 @@
+/* Small size quality warning */
+.small-quality-warning {
+  background: #ffffff !important;
+  color: #111111 !important;
+  border: 2px solid #ff1a1a !important;
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+  margin-top: 16px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
