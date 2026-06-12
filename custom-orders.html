@@ -25,11 +25,14 @@
       <input type="hidden" name="_template" value="table">
       <input type="hidden" id="cartSummaryInput" name="Cart Summary" value="">
       <input type="hidden" id="cartTotalInput" name="Cart Total" value="">
+      <input type="hidden" id="customColorFeeInput" name="Custom Color Fee" value="$0">
+      <input type="hidden" id="finalTotalInput" name="Final Total With Custom Color" value="">
 
       <section class="checkout-summary">
         <h2>Checkout Summary</h2>
         <div id="checkoutItems">No cart items found.</div>
-        <div class="checkout-total">Total: <strong id="checkoutTotal">$0</strong></div>
+        <div class="checkout-total">Cart Total: <strong id="checkoutTotal">$0</strong></div>
+        <div class="checkout-total">Final Total: <strong id="finalTotal">$0</strong></div>
       </section>
 
       <label>
@@ -87,6 +90,12 @@
             <option value="Other / Ask First">Other / Ask First</option>
           </select>
         </label>
+
+        <label class="custom-color-option">
+          <span>Optional Custom Color</span>
+          <input type="text" id="customColorInput" name="Optional Custom Color" placeholder="Type any custom color here, adds $25">
+          <small>Custom color request adds $25 to the checkout total.</small>
+        </label>
       </section>
 
       <label>
@@ -119,27 +128,47 @@
       return JSON.parse(localStorage.getItem("ridescaleCart") || "[]");
     }
 
+    let cartBaseTotal = 0;
+
+    function updateFinalTotal() {
+      const customColorInput = document.getElementById("customColorInput");
+      const finalTotalBox = document.getElementById("finalTotal");
+      const customColorFeeInput = document.getElementById("customColorFeeInput");
+      const finalTotalInput = document.getElementById("finalTotalInput");
+
+      const hasCustomColor = customColorInput && customColorInput.value.trim().length > 0;
+      const customFee = hasCustomColor ? 25 : 0;
+      const finalTotal = cartBaseTotal + customFee;
+
+      if (finalTotalBox) finalTotalBox.textContent = `$${finalTotal}`;
+      if (customColorFeeInput) customColorFeeInput.value = `$${customFee}`;
+      if (finalTotalInput) finalTotalInput.value = `$${finalTotal}`;
+    }
+
     function loadCheckoutSummary() {
       const cart = getCart();
       const itemsBox = document.getElementById("checkoutItems");
       const totalBox = document.getElementById("checkoutTotal");
       const summaryInput = document.getElementById("cartSummaryInput");
       const totalInput = document.getElementById("cartTotalInput");
+      const customColorInput = document.getElementById("customColorInput");
 
       if (!itemsBox || !totalBox) return;
 
       if (!cart.length) {
         itemsBox.innerHTML = "<p>No cart items found. You can still submit a custom request.</p>";
+        cartBaseTotal = 0;
         totalBox.textContent = "$0";
         if (summaryInput) summaryInput.value = "No cart items found.";
         if (totalInput) totalInput.value = "$0";
+        updateFinalTotal();
         return;
       }
 
-      let total = 0;
+      cartBaseTotal = 0;
 
       const summaryLines = cart.map((item, index) => {
-        total += Number(item.price);
+        cartBaseTotal += Number(item.price);
         const model = item.model ? " - " + item.model : "";
         return `${index + 1}. ${item.product}${model} - ${item.size} - ${item.dimensions} - $${item.price}`;
       });
@@ -154,10 +183,16 @@
         `;
       }).join("");
 
-      totalBox.textContent = `$${total}`;
+      totalBox.textContent = `$${cartBaseTotal}`;
 
       if (summaryInput) summaryInput.value = summaryLines.join("\n");
-      if (totalInput) totalInput.value = `$${total}`;
+      if (totalInput) totalInput.value = `$${cartBaseTotal}`;
+
+      if (customColorInput) {
+        customColorInput.addEventListener("input", updateFinalTotal);
+      }
+
+      updateFinalTotal();
     }
 
     document.addEventListener("DOMContentLoaded", loadCheckoutSummary);
