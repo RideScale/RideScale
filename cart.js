@@ -8,9 +8,13 @@ function saveCart(cart) {
 
 function setupSizePicker(productName) {
   const buttons = document.querySelectorAll(".size-option");
+  const imageButtons = document.querySelectorAll(".image-choice");
   const priceText = document.getElementById("selectedPrice");
+  const modelText = document.getElementById("selectedModel");
   const addBtn = document.getElementById("addToCartBtn");
+
   let selected = null;
+  let selectedModel = imageButtons.length ? imageButtons[0].dataset.model : "";
 
   function showMessage(message) {
     let messageBox = document.getElementById("cartMessage");
@@ -25,6 +29,21 @@ function setupSizePicker(productName) {
     messageBox.textContent = message;
   }
 
+  imageButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      imageButtons.forEach(b => b.classList.remove("active"));
+      button.classList.add("active");
+
+      selectedModel = button.dataset.model;
+
+      if (modelText) {
+        modelText.innerHTML = `Selected Model: <strong>${selectedModel}</strong>`;
+      }
+
+      showMessage("");
+    });
+  });
+
   buttons.forEach(button => {
     button.addEventListener("click", () => {
       buttons.forEach(b => b.classList.remove("active"));
@@ -32,12 +51,13 @@ function setupSizePicker(productName) {
 
       selected = {
         product: productName,
+        model: selectedModel,
         size: button.dataset.size,
         dimensions: button.dataset.dimensions,
         price: Number(button.dataset.price)
       };
 
-      priceText.innerHTML = `Selected: <strong>${selected.size}</strong> - $${selected.price}`;
+      priceText.innerHTML = `Selected Size: <strong>${selected.size}</strong> - $${selected.price}`;
       addBtn.disabled = false;
       showMessage("");
     });
@@ -49,11 +69,14 @@ function setupSizePicker(productName) {
       return;
     }
 
+    selected.model = selectedModel;
+
     const cart = getCart();
     cart.push(selected);
     saveCart(cart);
 
-    showMessage(`${selected.product} ${selected.size} added to cart.`);
+    const displayName = selected.model ? `${selected.product} - ${selected.model}` : selected.product;
+    showMessage(`${displayName} ${selected.size} added to cart.`);
   });
 }
 
@@ -73,10 +96,12 @@ function renderCart() {
   container.innerHTML = cart.map((item, index) => {
     total += item.price;
 
+    const modelLine = item.model ? `<br>${item.model}` : "";
+
     return `
       <div class="cart-item">
         <div>
-          <strong>${item.product}</strong><br>
+          <strong>${item.product}</strong>${modelLine}<br>
           ${item.size} - ${item.dimensions}
         </div>
         <div>$${item.price}</div>

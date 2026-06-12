@@ -18,12 +18,21 @@
   <main class="page">
     <h1><span>Mini Bikes</span> Details</h1>
 
-    <section class="product-gallery">
-      <img src="mini-bike-1.png" alt="White 3D printed BMX style mini bike">
-      <img src="mini-bike-2.png" alt="White 3D printed mountain bike style mini bike">
+    <p>Choose a bike style, then choose a size.</p>
+
+    <section class="product-gallery selectable-gallery">
+      <button class="image-choice active" data-model="BMX Style Mini Bike">
+        <img src="mini-bike-1.png" alt="White 3D printed BMX style mini bike">
+        <span>BMX Style</span>
+      </button>
+
+      <button class="image-choice" data-model="Mountain Bike Style Mini Bike">
+        <img src="mini-bike-2.png" alt="White 3D printed mountain bike style mini bike">
+        <span>Mountain Bike Style</span>
+      </button>
     </section>
 
-    <p>Choose a size to see the price, then add it to your cart.</p>
+    <p id="selectedModel" class="selected-price">Selected Model: <strong>BMX Style Mini Bike</strong></p>
 
     <section class="size-picker">
       <h2>Pick Your Size</h2>
@@ -33,11 +42,13 @@
           <span>Up to 2 × 2 × 2 in</span>
           <b>$5</b>
         </button>
+
         <button class="size-option" data-size="Medium" data-dimensions="Up to 4 × 4 × 4 in" data-price="10">
           <strong>Medium</strong>
           <span>Up to 4 × 4 × 4 in</span>
           <b>$10</b>
         </button>
+
         <button class="size-option" data-size="Large" data-dimensions="Up to 6 × 6 × 6 in" data-price="15">
           <strong>Large</strong>
           <span>Up to 6 × 6 × 6 in</span>
@@ -45,7 +56,7 @@
         </button>
       </div>
 
-      <p id="selectedPrice" class="selected-price">Selected: <strong>None</strong></p>
+      <p id="selectedPrice" class="selected-price">Selected Size: <strong>None</strong></p>
 
       <div class="cart-actions">
         <button id="addToCartBtn" class="cart-button" disabled>Add to Cart</button>
