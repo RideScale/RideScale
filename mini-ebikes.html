@@ -16,30 +16,48 @@
   </header>
 
   <main class="page">
-    <h1><span>Mini E-Bikes</span>Details</h1>
-    <p>Choose a size to see the price, then add it to your cart.</p>
+    <h1><span>Mini E-Bikes</span> Details</h1>
+
+    <p>Choose an E-Bike style, then choose a size.</p>
+
+    <section class="product-gallery selectable-gallery">
+      <button class="image-choice active" data-model="Red Frame Mini E-Bike">
+        <img src="mini-ebike-1.png" alt="Red and black 3D printed mini e-bike">
+        <span>Red Frame Style</span>
+      </button>
+
+      <button class="image-choice" data-model="White Frame Mini E-Bike">
+        <img src="mini-ebike-2.png" alt="White and black 3D printed mini e-bike">
+        <span>White Frame Style</span>
+      </button>
+    </section>
+
+    <p id="selectedModel" class="selected-price">Selected Model: <strong>Red Frame Mini E-Bike</strong></p>
 
     <section class="size-picker">
       <h2>Pick Your Size</h2>
       <div class="size-options">
-
         <button class="size-option" data-size="Small" data-dimensions="Up to 2 × 2 × 2 in" data-price="5">
           <strong>Small</strong>
           <span>Up to 2 × 2 × 2 in</span>
           <b>$5</b>
         </button>
+
         <button class="size-option" data-size="Medium" data-dimensions="Up to 4 × 4 × 4 in" data-price="10">
           <strong>Medium</strong>
           <span>Up to 4 × 4 × 4 in</span>
           <b>$10</b>
         </button>
+
         <button class="size-option" data-size="Large" data-dimensions="Up to 6 × 6 × 6 in" data-price="15">
           <strong>Large</strong>
           <span>Up to 6 × 6 × 6 in</span>
           <b>$15</b>
         </button>
       </div>
-      <p id="selectedPrice" class="selected-price">Selected: <strong>None</strong></p>
+
+      <p id="selectedPrice" class="selected-price">Selected Size: <strong>None</strong></p>
+
       <div class="cart-actions">
         <button id="addToCartBtn" class="cart-button" disabled>Add to Cart</button>
         <a class="cart-link" href="cart.html">View Cart</a>
