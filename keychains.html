@@ -16,30 +16,57 @@
   </header>
 
   <main class="page">
-    <h1><span>Keychains</span>Details</h1>
-    <p>Choose a size to see the price, then add it to your cart.</p>
+    <h1><span>Keychains</span> Details</h1>
+
+    <section class="product-gallery keychain-gallery">
+      <img src="keychain-1.png" alt="Black 3D printed helmet keychain">
+      <img src="keychain-2.png" alt="White 3D printed shoe keychain">
+    </section>
+
+    <section class="keychain-type-box">
+      <h2>What Keychain Do You Want?</h2>
+
+      <label><input type="radio" name="keychainType" value="Name Keychain" checked> Name Keychain</label>
+      <label><input type="radio" name="keychainType" value="Logo Keychain"> Logo Keychain</label>
+      <label><input type="radio" name="keychainType" value="Helmet Keychain"> Helmet Keychain</label>
+      <label><input type="radio" name="keychainType" value="Shoe Keychain"> Shoe Keychain</label>
+      <label><input type="radio" name="keychainType" value="Bike Keychain"> Bike Keychain</label>
+      <label><input type="radio" name="keychainType" value="Custom Keychain"> Custom Keychain</label>
+
+      <div id="customKeychainBox" class="custom-keychain-box">
+        <label>
+          Describe Your Custom Keychain
+          <textarea id="customKeychainText" rows="4" placeholder="Example: my name, school logo, dirt bike helmet, shoe, sports number, etc."></textarea>
+        </label>
+      </div>
+    </section>
+
+    <p>Choose a keychain type and size, then add it to your cart.</p>
 
     <section class="size-picker">
       <h2>Pick Your Size</h2>
       <div class="size-options">
-
         <button class="size-option" data-size="Small" data-dimensions="Up to 2 × 2 × 2 in" data-price="3">
           <strong>Small</strong>
           <span>Up to 2 × 2 × 2 in</span>
           <b>$3</b>
         </button>
+
         <button class="size-option" data-size="Medium" data-dimensions="Up to 4 × 4 × 4 in" data-price="5">
           <strong>Medium</strong>
           <span>Up to 4 × 4 × 4 in</span>
           <b>$5</b>
         </button>
+
         <button class="size-option" data-size="Large" data-dimensions="Up to 6 × 6 × 6 in" data-price="7">
           <strong>Large</strong>
           <span>Up to 6 × 6 × 6 in</span>
           <b>$7</b>
         </button>
       </div>
-      <p id="selectedPrice" class="selected-price">Selected: <strong>None</strong></p>
+
+      <p id="selectedPrice" class="selected-price">Selected Size: <strong>None</strong></p>
+
       <div class="cart-actions">
         <button id="addToCartBtn" class="cart-button" disabled>Add to Cart</button>
         <a class="cart-link" href="cart.html">View Cart</a>

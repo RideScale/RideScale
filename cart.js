@@ -10,8 +10,13 @@ function setupSizePicker(productName) {
   const buttons = document.querySelectorAll(".size-option");
   const imageButtons = document.querySelectorAll(".image-choice");
   const fidgetRadios = document.querySelectorAll('input[name="fidgetType"]');
+  const keychainRadios = document.querySelectorAll('input[name="keychainType"]');
+
   const customFidgetBox = document.getElementById("customFidgetBox");
   const customFidgetText = document.getElementById("customFidgetText");
+  const customKeychainBox = document.getElementById("customKeychainBox");
+  const customKeychainText = document.getElementById("customKeychainText");
+
   const priceText = document.getElementById("selectedPrice");
   const modelText = document.getElementById("selectedModel");
   const addBtn = document.getElementById("addToCartBtn");
@@ -27,6 +32,22 @@ function setupSizePicker(productName) {
       return customText ? `Custom Fidget: ${customText}` : "Custom Fidget";
     }
     return checked.value;
+  }
+
+  function getKeychainType() {
+    const checked = document.querySelector('input[name="keychainType"]:checked');
+    if (!checked) return "";
+    if (checked.value === "Custom Keychain") {
+      const customText = customKeychainText ? customKeychainText.value.trim() : "";
+      return customText ? `Custom Keychain: ${customText}` : "Custom Keychain";
+    }
+    return checked.value;
+  }
+
+  function getCurrentModel() {
+    if (productName === "Fidgets") return getFidgetType();
+    if (productName === "Keychains") return getKeychainType();
+    return selectedModel;
   }
 
   function showMessage(message) {
@@ -62,15 +83,30 @@ function setupSizePicker(productName) {
       if (customFidgetBox) {
         customFidgetBox.style.display = radio.value === "Custom Fidget" && radio.checked ? "block" : "none";
       }
+      if (selected && productName === "Fidgets") selected.model = getFidgetType();
+      showMessage("");
+    });
+  });
+
+  keychainRadios.forEach(radio => {
+    radio.addEventListener("change", () => {
+      if (customKeychainBox) {
+        customKeychainBox.style.display = radio.value === "Custom Keychain" && radio.checked ? "block" : "none";
+      }
+      if (selected && productName === "Keychains") selected.model = getKeychainType();
       showMessage("");
     });
   });
 
   if (customFidgetText) {
     customFidgetText.addEventListener("input", () => {
-      if (selected && productName === "Fidgets") {
-        selected.model = getFidgetType();
-      }
+      if (selected && productName === "Fidgets") selected.model = getFidgetType();
+    });
+  }
+
+  if (customKeychainText) {
+    customKeychainText.addEventListener("input", () => {
+      if (selected && productName === "Keychains") selected.model = getKeychainType();
     });
   }
 
@@ -79,15 +115,9 @@ function setupSizePicker(productName) {
       buttons.forEach(b => b.classList.remove("active"));
       button.classList.add("active");
 
-      let model = selectedModel;
-
-      if (productName === "Fidgets") {
-        model = getFidgetType();
-      }
-
       selected = {
         product: productName,
-        model: model,
+        model: getCurrentModel(),
         size: button.dataset.size,
         dimensions: button.dataset.dimensions,
         price: Number(button.dataset.price)
@@ -105,11 +135,7 @@ function setupSizePicker(productName) {
       return;
     }
 
-    if (productName === "Fidgets") {
-      selected.model = getFidgetType();
-    } else {
-      selected.model = selectedModel;
-    }
+    selected.model = getCurrentModel();
 
     const cart = getCart();
     cart.push(selected);
