@@ -618,3 +618,21 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+/* Bike color options on checkout */
+.bike-color-box {
+  background: #050505;
+  border: 2px solid #ff1a1a;
+  border-radius: 14px;
+  padding: 20px;
+  margin: 24px 0;
+}
+
+.bike-color-box h2 {
+  margin-top: 0;
+  color: #ff1a1a;
+}
+
+.bike-color-box p {
+  color: #c5c5c5;
+  margin-bottom: 18px;
+}
