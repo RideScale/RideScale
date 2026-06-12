@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Order Request Form | RideScale</title>
+  <title>Checkout | RideScale</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,15 +16,21 @@
   </header>
 
   <main class="page">
-    <h1><span>Order</span> Request</h1>
-    <p class="note">Choose a product, size, and add any notes. If this is custom, upload a picture or file.</p>
+    <h1><span>Checkout</span> Request</h1>
+    <p class="note">Your cart items and total are included below. Fill out your contact info and submit the request.</p>
 
     <form class="custom-form" action="https://formsubmit.co/Origami@post.com" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="_subject" value="New RideScale Order Request">
+      <input type="hidden" name="_subject" value="New RideScale Checkout Request">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" id="cartSummaryInput" name="Cart Summary" value="">
       <input type="hidden" id="cartTotalInput" name="Cart Total" value="">
+
+      <section class="checkout-summary">
+        <h2>Checkout Summary</h2>
+        <div id="checkoutItems">No cart items found.</div>
+        <div class="checkout-total">Total: <strong id="checkoutTotal">$0</strong></div>
+      </section>
 
       <label>
         Name
@@ -42,9 +48,9 @@
       </label>
 
       <label>
-        What product do you want?
-        <select name="Product" required>
-          <option value="">Choose a product</option>
+        Product / Order Type
+        <select name="Product or Order Type" required>
+          <option value="Cart Order">Cart Order</option>
           <option value="Mini Bikes">Mini Bikes</option>
           <option value="Mini E-Bikes">Mini E-Bikes</option>
           <option value="Fidgets">Fidgets</option>
@@ -55,18 +61,8 @@
       </label>
 
       <label>
-        Size
-        <select name="Size" required>
-          <option value="">Choose a size</option>
-          <option value="Small, up to 2 × 2 × 2 in">Small, up to 2 × 2 × 2 in</option>
-          <option value="Medium, up to 4 × 4 × 4 in">Medium, up to 4 × 4 × 4 in</option>
-          <option value="Large, up to 6 × 6 × 6 in">Large, up to 6 × 6 × 6 in</option>
-        </select>
-      </label>
-
-      <label>
         Custom Print Details
-        <textarea name="Custom Print Details" rows="5" placeholder="Only fill this out if you selected Custom Print. Describe what you want made."></textarea>
+        <textarea name="Custom Print Details" rows="5" placeholder="Only fill this out if you want something custom made."></textarea>
       </label>
 
       <label>
@@ -76,14 +72,8 @@
 
       <label>
         Notes
-        <textarea name="Notes" rows="4" placeholder="Color, deadline, special details, quantity, or anything else"></textarea>
+        <textarea name="Notes" rows="4" placeholder="Color, quantity, deadline, special details, or anything else"></textarea>
       </label>
-
-      <section class="checkout-summary">
-        <h2>Checkout Summary</h2>
-        <div id="checkoutItems">No cart items found.</div>
-        <div class="checkout-total">Total: <strong id="checkoutTotal">$0</strong></div>
-      </section>
 
       <button type="submit">Submit Request</button>
     </form>
@@ -129,7 +119,7 @@
         const model = item.model ? "<br>" + item.model : "";
         return `
           <div class="checkout-item">
-            <span>${item.product}${model}<br>${item.size}</span>
+            <span>${item.product}${model}<br>${item.size} - ${item.dimensions}</span>
             <strong>$${item.price}</strong>
           </div>
         `;
