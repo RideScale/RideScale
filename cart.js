@@ -9,12 +9,25 @@ function saveCart(cart) {
 function setupSizePicker(productName) {
   const buttons = document.querySelectorAll(".size-option");
   const imageButtons = document.querySelectorAll(".image-choice");
+  const fidgetRadios = document.querySelectorAll('input[name="fidgetType"]');
+  const customFidgetBox = document.getElementById("customFidgetBox");
+  const customFidgetText = document.getElementById("customFidgetText");
   const priceText = document.getElementById("selectedPrice");
   const modelText = document.getElementById("selectedModel");
   const addBtn = document.getElementById("addToCartBtn");
 
   let selected = null;
   let selectedModel = imageButtons.length ? imageButtons[0].dataset.model : "";
+
+  function getFidgetType() {
+    const checked = document.querySelector('input[name="fidgetType"]:checked');
+    if (!checked) return "";
+    if (checked.value === "Custom Fidget") {
+      const customText = customFidgetText ? customFidgetText.value.trim() : "";
+      return customText ? `Custom Fidget: ${customText}` : "Custom Fidget";
+    }
+    return checked.value;
+  }
 
   function showMessage(message) {
     let messageBox = document.getElementById("cartMessage");
@@ -44,14 +57,37 @@ function setupSizePicker(productName) {
     });
   });
 
+  fidgetRadios.forEach(radio => {
+    radio.addEventListener("change", () => {
+      if (customFidgetBox) {
+        customFidgetBox.style.display = radio.value === "Custom Fidget" && radio.checked ? "block" : "none";
+      }
+      showMessage("");
+    });
+  });
+
+  if (customFidgetText) {
+    customFidgetText.addEventListener("input", () => {
+      if (selected && productName === "Fidgets") {
+        selected.model = getFidgetType();
+      }
+    });
+  }
+
   buttons.forEach(button => {
     button.addEventListener("click", () => {
       buttons.forEach(b => b.classList.remove("active"));
       button.classList.add("active");
 
+      let model = selectedModel;
+
+      if (productName === "Fidgets") {
+        model = getFidgetType();
+      }
+
       selected = {
         product: productName,
-        model: selectedModel,
+        model: model,
         size: button.dataset.size,
         dimensions: button.dataset.dimensions,
         price: Number(button.dataset.price)
@@ -69,7 +105,11 @@ function setupSizePicker(productName) {
       return;
     }
 
-    selected.model = selectedModel;
+    if (productName === "Fidgets") {
+      selected.model = getFidgetType();
+    } else {
+      selected.model = selectedModel;
+    }
 
     const cart = getCart();
     cart.push(selected);

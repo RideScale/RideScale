@@ -16,30 +16,57 @@
   </header>
 
   <main class="page">
-    <h1><span>Fidgets</span>Details</h1>
-    <p>Choose a size to see the price, then add it to your cart.</p>
+    <h1><span>Fidgets</span> Details</h1>
+
+    <section class="product-gallery fidget-gallery">
+      <img src="fidget-1.png" alt="Blue articulated animal fidget">
+      <img src="fidget-2.png" alt="Black and white spiral pass through fidgets">
+    </section>
+
+    <section class="fidget-type-box">
+      <h2>What Fidget Do You Want?</h2>
+
+      <label><input type="radio" name="fidgetType" value="Articulated Animal" checked> Articulated Animal</label>
+      <label><input type="radio" name="fidgetType" value="Flexi Animal"> Flexi Animal</label>
+      <label><input type="radio" name="fidgetType" value="Spiral Pass Through"> Spiral Pass Through</label>
+      <label><input type="radio" name="fidgetType" value="Infinity Cube"> Infinity Cube</label>
+      <label><input type="radio" name="fidgetType" value="Gear Fidget"> Gear Fidget</label>
+      <label><input type="radio" name="fidgetType" value="Custom Fidget"> Custom Fidget</label>
+
+      <div id="customFidgetBox" class="custom-fidget-box">
+        <label>
+          Describe Your Custom Fidget
+          <textarea id="customFidgetText" rows="4" placeholder="Example: articulated dragon, shark, snake, custom gear toy, etc."></textarea>
+        </label>
+      </div>
+    </section>
+
+    <p>Choose a fidget type and size, then add it to your cart.</p>
 
     <section class="size-picker">
       <h2>Pick Your Size</h2>
       <div class="size-options">
-
         <button class="size-option" data-size="Small" data-dimensions="Up to 2 × 2 × 2 in" data-price="3">
           <strong>Small</strong>
           <span>Up to 2 × 2 × 2 in</span>
           <b>$3</b>
         </button>
+
         <button class="size-option" data-size="Medium" data-dimensions="Up to 4 × 4 × 4 in" data-price="6">
           <strong>Medium</strong>
           <span>Up to 4 × 4 × 4 in</span>
           <b>$6</b>
         </button>
+
         <button class="size-option" data-size="Large" data-dimensions="Up to 6 × 6 × 6 in" data-price="10">
           <strong>Large</strong>
           <span>Up to 6 × 6 × 6 in</span>
           <b>$10</b>
         </button>
       </div>
-      <p id="selectedPrice" class="selected-price">Selected: <strong>None</strong></p>
+
+      <p id="selectedPrice" class="selected-price">Selected Size: <strong>None</strong></p>
+
       <div class="cart-actions">
         <button id="addToCartBtn" class="cart-button" disabled>Add to Cart</button>
         <a class="cart-link" href="cart.html">View Cart</a>
