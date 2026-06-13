@@ -17,13 +17,14 @@
 
   <main class="page">
     <h1><span>Checkout</span> Request</h1>
-    <p class="note">Fill this out first so I know what to make and where to deliver it. After submitting, you will continue to the correct Square payment link.</p>
+    <p class="note">Fill this out first so I know what to make and where to deliver it. After submitting, you will be sent to Square to pay.</p>
 
-    <form class="custom-form" action="https://formsubmit.co/Origami@post.com" method="POST" enctype="multipart/form-data">
+    <iframe name="hiddenFormFrame" id="hiddenFormFrame" style="display:none;"></iframe>
+
+    <form id="checkoutForm" class="custom-form" action="https://formsubmit.co/Origami@post.com" method="POST" enctype="multipart/form-data" target="hiddenFormFrame">
       <input type="hidden" name="_subject" value="New RideScale Checkout Request">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
-      <input type="hidden" id="squareNextLink" name="_next" value="https://square.link/u/QlymTvTh">
       <input type="hidden" id="cartSummaryInput" name="Cart Summary" value="">
       <input type="hidden" id="cartTotalInput" name="Cart Total" value="">
       <input type="hidden" id="selectedSquareLinkInput" name="Selected Square Payment Link" value="">
@@ -95,11 +96,12 @@
         <textarea name="Notes" rows="4" placeholder="Quantity, deadline, special details, or anything else"></textarea>
       </label>
 
-      <button type="submit">Submit Order & Continue to Square</button>
+      <button id="submitBtn" type="submit">Submit Order & Go to Square</button>
+      <p id="paymentMessage" class="note small-note" style="display:none;">Order submitted. Opening Square payment...</p>
     </form>
 
     <p class="note small-note">
-      This form sends the order details to Origami@post.com before Square payment opens.
+      Your order details are sent first, then Square payment opens.
     </p>
   </main>
 
@@ -146,7 +148,6 @@
       const totalBox = document.getElementById("checkoutTotal");
       const summaryInput = document.getElementById("cartSummaryInput");
       const totalInput = document.getElementById("cartTotalInput");
-      const nextInput = document.getElementById("squareNextLink");
       const selectedSquareLinkInput = document.getElementById("selectedSquareLinkInput");
 
       let total = 0;
@@ -180,12 +181,37 @@
         totalInput.value = "$" + total;
       }
 
-      const squareLink = getSquareLinkForCart(cart);
-      nextInput.value = squareLink;
-      selectedSquareLinkInput.value = squareLink;
+      selectedSquareLinkInput.value = getSquareLinkForCart(cart);
     }
 
-    document.addEventListener("DOMContentLoaded", loadCheckoutSummary);
+    function setupSubmitRedirect() {
+      const form = document.getElementById("checkoutForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const message = document.getElementById("paymentMessage");
+
+      form.addEventListener("submit", function() {
+        const cart = getCart();
+        const squareLink = getSquareLinkForCart(cart);
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Submitting Order...";
+        }
+
+        if (message) {
+          message.style.display = "block";
+        }
+
+        setTimeout(function() {
+          window.location.href = squareLink;
+        }, 1800);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      loadCheckoutSummary();
+      setupSubmitRedirect();
+    });
   </script>
 </body>
 </html>
