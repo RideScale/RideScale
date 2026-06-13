@@ -30,6 +30,7 @@
 
       <section class="checkout-summary">
         <h2>Checkout Summary</h2>
+        <p class="one-item-note">Only 1 item can be ordered at a time. Finish this order before adding another item.</p>
         <div id="checkoutItems">No cart items found.</div>
         <div class="checkout-total">Total: <strong id="checkoutTotal">$0</strong></div>
       </section>
@@ -117,7 +118,13 @@
     }
 
     function loadCheckoutSummary() {
-      const cart = getCart();
+      let cart = getCart();
+
+      if (cart.length > 1) {
+        cart = [cart[0]];
+        localStorage.setItem("ridescaleCart", JSON.stringify(cart));
+      }
+
       const itemsBox = document.getElementById("checkoutItems");
       const totalBox = document.getElementById("checkoutTotal");
       const summaryInput = document.getElementById("cartSummaryInput");
