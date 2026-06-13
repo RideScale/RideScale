@@ -17,23 +17,22 @@
 
   <main class="page">
     <h1><span>Checkout</span> Request</h1>
-    <p class="note">Orders are paid in cash. I need your location so we can arrange in-person pickup or delivery.</p>
+    <p class="note">Fill out your order details first. After you submit, you will be sent to Square to pay.</p>
 
     <form class="custom-form" action="https://formsubmit.co/Origami@post.com" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="_subject" value="New RideScale Checkout Request">
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
+      <input type="hidden" id="squareNextLink" name="_next" value="https://square.link/u/QlymTvTh">
       <input type="hidden" id="cartSummaryInput" name="Cart Summary" value="">
       <input type="hidden" id="cartTotalInput" name="Cart Total" value="">
-      <input type="hidden" id="customColorFeeInput" name="Custom Color Fee" value="$0">
-      <input type="hidden" id="finalTotalInput" name="Final Total With Custom Color" value="">
+      <input type="hidden" id="selectedSquareLinkInput" name="Selected Square Payment Link" value="">
 
       <section class="checkout-summary">
         <h2>Checkout Summary</h2>
         <div id="checkoutItems">No cart items found.</div>
-        <div class="checkout-total">Cart Total: <strong id="checkoutTotal">$0</strong></div>
-        <div class="checkout-total">Final Total: <strong id="finalTotal">$0</strong></div>
-        <p class="cash-note">Payment method: <strong>Cash in person</strong></p>
+        <div class="checkout-total">Total: <strong id="checkoutTotal">$0</strong></div>
+        <p class="cash-note">After submitting this form, you will continue to Square payment.</p>
       </section>
 
       <label>
@@ -59,7 +58,6 @@
 
       <section class="location-box">
         <h2>Pickup / Delivery Location</h2>
-        <p>Choose how you want to share your location.</p>
 
         <label>
           Location Option
@@ -77,8 +75,7 @@
         </label>
 
         <p class="location-email-note">
-          You can also email your location or pickup details to:
-          <strong>Origami@post.com</strong>
+          You can also email pickup details to <strong>Origami@post.com</strong>.
         </p>
       </section>
 
@@ -95,9 +92,8 @@
         </select>
       </label>
 
-      <section id="bikeColorBox" class="bike-color-box" style="display:none;">
+      <section id="bikeColorBox" class="smart-color-box" style="display:none;">
         <h2>Mini Bike / Mini E-Bike Colors</h2>
-        <p>This section only shows when your order includes a Mini Bike or Mini E-Bike.</p>
 
         <label>
           Frame Color
@@ -122,22 +118,15 @@
             <option value="Other / Ask First">Other / Ask First</option>
           </select>
         </label>
-
-        <label class="custom-color-option">
-          <span>Optional Custom Color</span>
-          <input type="text" id="customColorInput" name="Optional Custom Color" placeholder="Type any custom color here, adds $25">
-          <small>Custom color request adds $25 to the checkout total.</small>
-        </label>
       </section>
 
-      <section id="fidgetColorBox" class="bike-color-box" style="display:none;">
-        <h2>Fidget Color</h2>
-        <p>This section only shows when your order includes a Fidget.</p>
+      <section id="singleColorBox" class="smart-color-box" style="display:none;">
+        <h2>Item Color</h2>
 
         <label>
-          What color fidget do you want?
-          <select name="Fidget Color">
-            <option value="">Choose fidget color</option>
+          Main Color
+          <select name="Main Item Color">
+            <option value="">Choose color</option>
             <option value="Black">Black</option>
             <option value="White">White</option>
             <option value="Red">Red</option>
@@ -150,8 +139,8 @@
         </label>
 
         <label>
-          Other Fidget Color Request
-          <input type="text" name="Other Fidget Color Request" placeholder="Optional, type another color if needed">
+          Other Color Request
+          <input type="text" name="Other Color Request" placeholder="Optional, type another color if needed">
         </label>
       </section>
 
@@ -167,14 +156,14 @@
 
       <label>
         Notes
-        <textarea name="Notes" rows="4" placeholder="Color details, quantity, deadline, special details, or anything else"></textarea>
+        <textarea name="Notes" rows="4" placeholder="Quantity, deadline, special details, or anything else"></textarea>
       </label>
 
-      <button type="submit">Submit Request</button>
+      <button type="submit">Submit Order & Continue to Square</button>
     </form>
 
     <p class="note small-note">
-      First time only: check Origami@post.com for a FormSubmit confirmation email.
+      The form must be completed first so I know what to make and where to deliver it.
     </p>
   </main>
 
@@ -185,7 +174,24 @@
       return JSON.parse(localStorage.getItem("ridescaleCart") || "[]");
     }
 
-    let cartBaseTotal = 0;
+    const miniBikeSquareLinks = {
+      "Mini Bikes|BMX Style Mini Bike|Medium": "https://square.link/u/N8ZUDGal",
+      "Mini Bikes|MTB Style Mini Bike|Medium": "https://square.link/u/LocLKCyW",
+      "Mini Bikes|BMX Style Mini Bike|Large": "https://square.link/u/4hT7llGJ",
+      "Mini Bikes|MTB Style Mini Bike|Large": "https://square.link/u/k1tnSl3h"
+    };
+
+    function getSquareLinkForCart(cart) {
+      if (!cart.length) return "https://square.link/u/QlymTvTh";
+
+      if (cart.length === 1) {
+        const item = cart[0];
+        const key = `${item.product}|${item.model}|${item.size}`;
+        if (miniBikeSquareLinks[key]) return miniBikeSquareLinks[key];
+      }
+
+      return "https://square.link/u/QlymTvTh";
+    }
 
     function cartHasProduct(cart, productName) {
       return cart.some(item => item.product === productName);
@@ -197,42 +203,6 @@
       return orderType.value === productName;
     }
 
-    function updateProductVisibility() {
-      const cart = getCart();
-      const bikeBox = document.getElementById("bikeColorBox");
-      const fidgetBox = document.getElementById("fidgetColorBox");
-
-      const showBike = cartHasProduct(cart, "Mini Bikes") || cartHasProduct(cart, "Mini E-Bikes") || selectedOrderTypeIs("Mini Bikes") || selectedOrderTypeIs("Mini E-Bikes");
-      const showFidget = cartHasProduct(cart, "Fidgets") || selectedOrderTypeIs("Fidgets");
-
-      if (bikeBox) bikeBox.style.display = showBike ? "block" : "none";
-      if (fidgetBox) fidgetBox.style.display = showFidget ? "block" : "none";
-
-      if (!showBike) {
-        const customColorInput = document.getElementById("customColorInput");
-        if (customColorInput) customColorInput.value = "";
-      }
-
-      updateFinalTotal();
-    }
-
-    function updateFinalTotal() {
-      const customColorInput = document.getElementById("customColorInput");
-      const finalTotalBox = document.getElementById("finalTotal");
-      const customColorFeeInput = document.getElementById("customColorFeeInput");
-      const finalTotalInput = document.getElementById("finalTotalInput");
-      const bikeBox = document.getElementById("bikeColorBox");
-
-      const bikeBoxVisible = bikeBox && bikeBox.style.display !== "none";
-      const hasCustomColor = bikeBoxVisible && customColorInput && customColorInput.value.trim().length > 0;
-      const customFee = hasCustomColor ? 25 : 0;
-      const finalTotal = cartBaseTotal + customFee;
-
-      if (finalTotalBox) finalTotalBox.textContent = `$${finalTotal}`;
-      if (customColorFeeInput) customColorFeeInput.value = `$${customFee}`;
-      if (finalTotalInput) finalTotalInput.value = `$${finalTotal}`;
-    }
-
     function updateLocationOption() {
       const locationOption = document.getElementById("locationOption");
       const addressField = document.getElementById("addressField");
@@ -242,65 +212,79 @@
       addressField.style.display = showAddress ? "block" : "none";
     }
 
+    function updateColorVisibility() {
+      const cart = getCart();
+      const bikeBox = document.getElementById("bikeColorBox");
+      const singleColorBox = document.getElementById("singleColorBox");
+
+      const showBike =
+        cartHasProduct(cart, "Mini Bikes") ||
+        cartHasProduct(cart, "Mini E-Bikes") ||
+        selectedOrderTypeIs("Mini Bikes") ||
+        selectedOrderTypeIs("Mini E-Bikes");
+
+      const showSingle =
+        cartHasProduct(cart, "Fidgets") ||
+        cartHasProduct(cart, "Keychains") ||
+        cartHasProduct(cart, "Desk Toys") ||
+        selectedOrderTypeIs("Fidgets") ||
+        selectedOrderTypeIs("Keychains") ||
+        selectedOrderTypeIs("Desk Toys");
+
+      if (bikeBox) bikeBox.style.display = showBike ? "block" : "none";
+      if (singleColorBox) singleColorBox.style.display = showSingle ? "block" : "none";
+    }
+
     function loadCheckoutSummary() {
       const cart = getCart();
       const itemsBox = document.getElementById("checkoutItems");
       const totalBox = document.getElementById("checkoutTotal");
       const summaryInput = document.getElementById("cartSummaryInput");
       const totalInput = document.getElementById("cartTotalInput");
-      const customColorInput = document.getElementById("customColorInput");
+      const nextInput = document.getElementById("squareNextLink");
+      const selectedSquareLinkInput = document.getElementById("selectedSquareLinkInput");
       const orderTypeSelect = document.getElementById("orderTypeSelect");
       const locationOption = document.getElementById("locationOption");
 
-      if (!itemsBox || !totalBox) return;
+      let total = 0;
 
       if (!cart.length) {
         itemsBox.innerHTML = "<p>No cart items found. You can still submit a custom request.</p>";
-        cartBaseTotal = 0;
         totalBox.textContent = "$0";
-        if (summaryInput) summaryInput.value = "No cart items found.";
-        if (totalInput) totalInput.value = "$0";
-        updateProductVisibility();
-        updateLocationOption();
-        return;
+        summaryInput.value = "No cart items found.";
+        totalInput.value = "$0";
+      } else {
+        const summaryLines = cart.map((item, index) => {
+          total += Number(item.price);
+          const model = item.model ? " - " + item.model : "";
+          const qty = item.quantity && item.quantity > 1 ? ` - Quantity: ${item.quantity}` : "";
+          return `${index + 1}. ${item.product}${model} - ${item.size} - ${item.dimensions}${qty} - $${item.price}`;
+        });
+
+        itemsBox.innerHTML = cart.map(item => {
+          const model = item.model ? "<br>" + item.model : "";
+          const qty = item.quantity && item.quantity > 1 ? `<br>Quantity: ${item.quantity}` : "";
+          return `
+            <div class="checkout-item">
+              <span>${item.product}${model}<br>${item.size} - ${item.dimensions}${qty}</span>
+              <strong>$${item.price}</strong>
+            </div>
+          `;
+        }).join("");
+
+        totalBox.textContent = `$${total}`;
+        summaryInput.value = summaryLines.join("\\n");
+        totalInput.value = `$${total}`;
       }
 
-      cartBaseTotal = 0;
+      const squareLink = getSquareLinkForCart(cart);
+      nextInput.value = squareLink;
+      selectedSquareLinkInput.value = squareLink;
 
-      const summaryLines = cart.map((item, index) => {
-        cartBaseTotal += Number(item.price);
-        const model = item.model ? " - " + item.model : "";
-        return `${index + 1}. ${item.product}${model} - ${item.size} - ${item.dimensions} - $${item.price}`;
-      });
+      if (orderTypeSelect) orderTypeSelect.addEventListener("change", updateColorVisibility);
+      if (locationOption) locationOption.addEventListener("change", updateLocationOption);
 
-      itemsBox.innerHTML = cart.map(item => {
-        const model = item.model ? "<br>" + item.model : "";
-        return `
-          <div class="checkout-item">
-            <span>${item.product}${model}<br>${item.size} - ${item.dimensions}</span>
-            <strong>$${item.price}</strong>
-          </div>
-        `;
-      }).join("");
-
-      totalBox.textContent = `$${cartBaseTotal}`;
-
-      if (summaryInput) summaryInput.value = summaryLines.join("\n");
-      if (totalInput) totalInput.value = `$${cartBaseTotal}`;
-
-      if (customColorInput) {
-        customColorInput.addEventListener("input", updateFinalTotal);
-      }
-
-      if (orderTypeSelect) {
-        orderTypeSelect.addEventListener("change", updateProductVisibility);
-      }
-
-      if (locationOption) {
-        locationOption.addEventListener("change", updateLocationOption);
-      }
-
-      updateProductVisibility();
+      updateColorVisibility();
       updateLocationOption();
     }
 
