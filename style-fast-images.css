@@ -1,0 +1,13 @@
+/* Faster image loading helpers */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.product-gallery img,
+.fidget-gallery img,
+.keychain-gallery img,
+.desk-toy-gallery img,
+.selectable-gallery img {
+  content-visibility: auto;
+}
