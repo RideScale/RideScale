@@ -17,7 +17,7 @@
 
   <main class="page">
     <h1><span>Checkout</span> Request</h1>
-    <p class="note">Fill out your order details first. After you submit, you will be sent to Square to pay.</p>
+    <p class="note">Fill this out first so I know what to make and where to deliver it. After submitting, you will continue to Square payment.</p>
 
     <form class="custom-form" action="https://formsubmit.co/Origami@post.com" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="_subject" value="New RideScale Checkout Request">
@@ -32,72 +32,14 @@
         <h2>Checkout Summary</h2>
         <div id="checkoutItems">No cart items found.</div>
         <div class="checkout-total">Total: <strong id="checkoutTotal">$0</strong></div>
-        <p class="cash-note">After submitting this form, you will continue to Square payment.</p>
       </section>
 
-      <label>
-        Name
-        <input type="text" name="Name" placeholder="Your name" required minlength="2">
-      </label>
-
-      <label>
-        Email
-        <input type="email" name="Email" placeholder="your@email.com" required>
-      </label>
-
-      <label>
-        Phone Number
-        <input
-          type="tel"
-          name="Phone Number"
-          placeholder="123-456-7890"
-          required
-          pattern="[0-9]{3}[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}"
-          title="Enter a valid 10-digit phone number, like 123-456-7890">
-      </label>
-
-      <section class="location-box">
-        <h2>Pickup / Delivery Location</h2>
-
-        <label>
-          Location Option
-          <select id="locationOption" name="Location Option" required>
-            <option value="">Choose one</option>
-            <option value="I will enter my address below">I will enter my address below</option>
-            <option value="I will email my location to Origami@post.com">I will email my location to Origami@post.com</option>
-            <option value="I will arrange location after you contact me">I will arrange location after you contact me</option>
-          </select>
-        </label>
-
-        <label id="addressField">
-          Address or General Location
-          <textarea name="Address or General Location" rows="3" placeholder="Example: neighborhood, school, pickup area, or address"></textarea>
-        </label>
-
-        <p class="location-email-note">
-          You can also email pickup details to <strong>Origami@post.com</strong>.
-        </p>
-      </section>
-
-      <label>
-        Product / Order Type
-        <select id="orderTypeSelect" name="Product or Order Type" required>
-          <option value="Cart Order">Cart Order</option>
-          <option value="Mini Bikes">Mini Bikes</option>
-          <option value="Mini E-Bikes">Mini E-Bikes</option>
-          <option value="Fidgets">Fidgets</option>
-          <option value="Keychains">Keychains</option>
-          <option value="Desk Toys">Desk Toys</option>
-          <option value="Custom Print">Custom Print</option>
-        </select>
-      </label>
-
-      <section id="bikeColorBox" class="smart-color-box" style="display:none;">
+      <section class="smart-color-box">
         <h2>Mini Bike / Mini E-Bike Colors</h2>
 
         <label>
           Frame Color
-          <select name="Frame Color">
+          <select name="Frame Color" required>
             <option value="">Choose frame color</option>
             <option value="Black">Black</option>
             <option value="White">White</option>
@@ -109,7 +51,7 @@
 
         <label>
           Accessories Color
-          <select name="Accessories Color">
+          <select name="Accessories Color" required>
             <option value="">Choose accessories color</option>
             <option value="Black">Black</option>
             <option value="White">White</option>
@@ -120,29 +62,10 @@
         </label>
       </section>
 
-      <section id="singleColorBox" class="smart-color-box" style="display:none;">
-        <h2>Item Color</h2>
-
-        <label>
-          Main Color
-          <select name="Main Item Color">
-            <option value="">Choose color</option>
-            <option value="Black">Black</option>
-            <option value="White">White</option>
-            <option value="Red">Red</option>
-            <option value="Blue">Blue</option>
-            <option value="Green">Green</option>
-            <option value="Purple">Purple</option>
-            <option value="Orange">Orange</option>
-            <option value="Other / Ask First">Other / Ask First</option>
-          </select>
-        </label>
-
-        <label>
-          Other Color Request
-          <input type="text" name="Other Color Request" placeholder="Optional, type another color if needed">
-        </label>
-      </section>
+      <label>
+        Address or Delivery Location
+        <textarea name="Address or Delivery Location" rows="3" placeholder="Enter your address, neighborhood, school, or pickup/delivery location" required></textarea>
+      </label>
 
       <label>
         Custom Print Details
@@ -163,7 +86,7 @@
     </form>
 
     <p class="note small-note">
-      The form must be completed first so I know what to make and where to deliver it.
+      This form sends the order details to Origami@post.com before Square payment opens.
     </p>
   </main>
 
@@ -193,48 +116,6 @@
       return "https://square.link/u/QlymTvTh";
     }
 
-    function cartHasProduct(cart, productName) {
-      return cart.some(item => item.product === productName);
-    }
-
-    function selectedOrderTypeIs(productName) {
-      const orderType = document.getElementById("orderTypeSelect");
-      if (!orderType) return false;
-      return orderType.value === productName;
-    }
-
-    function updateLocationOption() {
-      const locationOption = document.getElementById("locationOption");
-      const addressField = document.getElementById("addressField");
-      if (!locationOption || !addressField) return;
-
-      const showAddress = locationOption.value === "I will enter my address below";
-      addressField.style.display = showAddress ? "block" : "none";
-    }
-
-    function updateColorVisibility() {
-      const cart = getCart();
-      const bikeBox = document.getElementById("bikeColorBox");
-      const singleColorBox = document.getElementById("singleColorBox");
-
-      const showBike =
-        cartHasProduct(cart, "Mini Bikes") ||
-        cartHasProduct(cart, "Mini E-Bikes") ||
-        selectedOrderTypeIs("Mini Bikes") ||
-        selectedOrderTypeIs("Mini E-Bikes");
-
-      const showSingle =
-        cartHasProduct(cart, "Fidgets") ||
-        cartHasProduct(cart, "Keychains") ||
-        cartHasProduct(cart, "Desk Toys") ||
-        selectedOrderTypeIs("Fidgets") ||
-        selectedOrderTypeIs("Keychains") ||
-        selectedOrderTypeIs("Desk Toys");
-
-      if (bikeBox) bikeBox.style.display = showBike ? "block" : "none";
-      if (singleColorBox) singleColorBox.style.display = showSingle ? "block" : "none";
-    }
-
     function loadCheckoutSummary() {
       const cart = getCart();
       const itemsBox = document.getElementById("checkoutItems");
@@ -243,13 +124,11 @@
       const totalInput = document.getElementById("cartTotalInput");
       const nextInput = document.getElementById("squareNextLink");
       const selectedSquareLinkInput = document.getElementById("selectedSquareLinkInput");
-      const orderTypeSelect = document.getElementById("orderTypeSelect");
-      const locationOption = document.getElementById("locationOption");
 
       let total = 0;
 
       if (!cart.length) {
-        itemsBox.innerHTML = "<p>No cart items found. You can still submit a custom request.</p>";
+        itemsBox.innerHTML = "<p>No cart items found.</p>";
         totalBox.textContent = "$0";
         summaryInput.value = "No cart items found.";
         totalInput.value = "$0";
@@ -280,12 +159,6 @@
       const squareLink = getSquareLinkForCart(cart);
       nextInput.value = squareLink;
       selectedSquareLinkInput.value = squareLink;
-
-      if (orderTypeSelect) orderTypeSelect.addEventListener("change", updateColorVisibility);
-      if (locationOption) locationOption.addEventListener("change", updateLocationOption);
-
-      updateColorVisibility();
-      updateLocationOption();
     }
 
     document.addEventListener("DOMContentLoaded", loadCheckoutSummary);
