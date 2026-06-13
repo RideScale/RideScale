@@ -1,0 +1,22 @@
+/* Simple checkout cleanup */
+.custom-form button {
+  font-size: 21px !important;
+  padding: 16px !important;
+}
+
+.smart-color-box {
+  background: #151515;
+  border: 1px solid #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  margin: 24px 0;
+}
+
+.smart-color-box h2 {
+  margin-top: 0;
+  color: #ffffff;
+}
+
+.smart-color-box label {
+  color: #ffffff;
+}
