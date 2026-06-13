@@ -1,19 +1,27 @@
-RideScale Custom Order Email Add-On
+RideScale Fast Loading Images
 
 What this does:
-- Replaces your custom-orders.html page.
-- Sends custom order form submissions to Origami@post.com.
-- Includes fields for name, email, phone number, what they want, size, upload, and notes.
+- Replaces large product images with smaller compressed versions.
+- Keeps the same filenames so your current HTML should still work.
+- Makes product photos load faster on phones.
 
 How to use:
 1. Extract this ZIP.
-2. Upload custom-orders.html to your GitHub repository.
-3. Replace the old custom-orders.html file.
-4. Commit changes.
-5. Open your website and test the form.
+2. Upload all image files to GitHub.
+3. Replace the old image files with these new ones.
+4. Optional: copy style-fast-images.css into the bottom of style.css.
+5. Commit changes.
+6. Open the website on your phone and refresh.
 
-Important:
-The first time you submit the form, FormSubmit may send a confirmation email to Origami@post.com.
-Open that email and confirm it so future form submissions arrive correctly.
-
-GitHub Pages cannot send emails by itself, so this file uses FormSubmit as the email service.
+Replace these image files:
+- mini-bike-1.png
+- mini-bike-2.png
+- mini-ebike-1.png
+- mini-ebike-2.png
+- fidget-1.png
+- fidget-2.png
+- keychain-1.png
+- keychain-2.png
+- desk-toy-1.png
+- desk-toy-2.png
+- desk-toy-3.png
