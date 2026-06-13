@@ -1,6 +1,13 @@
 function getCart(){return JSON.parse(localStorage.getItem("ridescaleCart")||"[]");}
 function saveCart(cart){localStorage.setItem("ridescaleCart",JSON.stringify(cart));}
 
+const squareLinks = {
+  "Mini Bikes|BMX Style Mini Bike|Medium": "https://square.link/u/N8ZUDGal",
+  "Mini Bikes|MTB Style Mini Bike|Medium": "https://square.link/u/LocLKCyW",
+  "Mini Bikes|BMX Style Mini Bike|Large": "https://square.link/u/4hT7llGJ",
+  "Mini Bikes|MTB Style Mini Bike|Large": "https://square.link/u/k1tnSl3h"
+};
+
 function setupSizePicker(productName){
   const buttons=document.querySelectorAll(".size-option");
   const imageButtons=document.querySelectorAll(".image-choice");
@@ -21,6 +28,7 @@ function setupSizePicker(productName){
   const priceText=document.getElementById("selectedPrice");
   const modelText=document.getElementById("selectedModel");
   const addBtn=document.getElementById("addToCartBtn");
+  const buyNowBtn=document.getElementById("squareBuyNowBtn");
 
   let selected=null;
   let selectedModel=imageButtons.length?imageButtons[0].dataset.model:"";
@@ -86,6 +94,25 @@ function setupSizePicker(productName){
     return selectedModel;
   }
 
+  function updateSquareLink(){
+    if(!buyNowBtn)return;
+    if(!selected){
+      buyNowBtn.href="#";
+      buyNowBtn.classList.add("disabled-buy");
+      return;
+    }
+    const key=`${selected.product}|${selected.model}|${selected.size}`;
+    const link=squareLinks[key];
+
+    if(link){
+      buyNowBtn.href=link;
+      buyNowBtn.classList.remove("disabled-buy");
+    }else{
+      buyNowBtn.href="#";
+      buyNowBtn.classList.add("disabled-buy");
+    }
+  }
+
   function updateKeychainBoxes(){
     const value=checkedValue("keychainType");
     if(nameKeychainBox)nameKeychainBox.style.display=value==="Name Keychain"?"block":"none";
@@ -111,6 +138,10 @@ function setupSizePicker(productName){
       button.classList.add("active");
       selectedModel=button.dataset.model;
       if(modelText)modelText.innerHTML=`Selected Model: <strong>${selectedModel}</strong>`;
+      if(selected){
+        selected.model=getCurrentModel();
+        updateSquareLink();
+      }
       showMessage("");
     });
   });
@@ -138,9 +169,7 @@ function setupSizePicker(productName){
   }));
 
   [customFidgetText,customKeychainText,customDeskToyText,keychainNameInput].forEach(input=>{
-    if(input)input.addEventListener("input",()=>{
-      if(selected)selected.model=getCurrentModel();
-    });
+    if(input)input.addEventListener("input",()=>{if(selected)selected.model=getCurrentModel();});
   });
 
   if(keychainQuantityInput){
@@ -177,9 +206,19 @@ function setupSizePicker(productName){
       }
 
       addBtn.disabled=false;
+      updateSquareLink();
       showSmallQualityWarning(selected.size);
     });
   });
+
+  if(buyNowBtn){
+    buyNowBtn.addEventListener("click",(event)=>{
+      if(buyNowBtn.classList.contains("disabled-buy")){
+        event.preventDefault();
+        showMessage("Choose a style and size first.");
+      }
+    });
+  }
 
   addBtn.addEventListener("click",()=>{
     if(!selected){showMessage("Choose a size first.");return;}
