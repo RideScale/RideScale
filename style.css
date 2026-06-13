@@ -1199,3 +1199,15 @@ img {
   font-weight: 800 !important;
   line-height: 1.4 !important;
 }
+/* Hard limit: one item per order */
+.one-item-note,
+.one-item-block-message {
+  background: #ffffff !important;
+  color: #111111 !important;
+  border: 2px solid #ff1a1a !important;
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+  margin: 14px 0 !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
