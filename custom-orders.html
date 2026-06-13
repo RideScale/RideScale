@@ -76,10 +76,20 @@
         </label>
       </section>
 
-      <label>
-        Address or Delivery Location
-        <textarea name="Address or Delivery Location" rows="3" placeholder="Enter your address, neighborhood, school, or pickup/delivery location" required></textarea>
-      </label>
+      <section class="address-box">
+        <h2>Delivery Location</h2>
+        <p>Put your house number or a simple delivery/pickup location so I know where to bring the order.</p>
+
+        <label>
+          House Number or Location
+          <input
+            type="text"
+            name="House Number or Location"
+            placeholder="Example: House #123, clubhouse, front porch, or pickup spot"
+            required
+            minlength="1">
+        </label>
+      </section>
 
       <label>
         Custom Print Details
