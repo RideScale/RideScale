@@ -35,6 +35,7 @@ function setupSizePicker(productName){
     }
     box.textContent=message;
     box.classList.toggle("small-quality-warning",isWarning);
+    box.classList.toggle("one-item-block-message", isWarning);
   }
 
   function getQuantity(){
@@ -184,6 +185,12 @@ function setupSizePicker(productName){
   addBtn.addEventListener("click",()=>{
     if(!selected){showMessage("Choose a size first.");return;}
 
+    const existingCart=getCart();
+    if(existingCart.length >= 1){
+      showMessage("You can only have 1 item in the cart at a time. Finish checkout or clear your cart before adding another item.", true);
+      return;
+    }
+
     selected.model=getCurrentModel();
 
     if(productName==="Keychains"){
@@ -195,7 +202,7 @@ function setupSizePicker(productName){
 
     const displayName=selected.model?`${selected.product} - ${selected.model}`:selected.product;
     const qtyText=selected.quantity&&selected.quantity>1?` Quantity: ${selected.quantity}.`:"";
-    showMessage(`${displayName} ${selected.size} added to cart.${qtyText} Only one item can be ordered at a time, so this replaced any previous cart item.`);
+    showMessage(`${displayName} ${selected.size} added to cart.${qtyText}`);
   });
 
   updateKeychainBoxes();
@@ -221,7 +228,7 @@ function renderCart(){
   let total=0;
 
   container.innerHTML=`
-    <p class="one-item-note">Only 1 item can be ordered at a time. Add another item only after finishing this order.</p>
+    <p class="one-item-note">Only 1 item can be ordered at a time. Finish this order or clear the cart before adding another item.</p>
   ` + cart.map((item,index)=>{
     total+=Number(item.price);
     const modelLine=item.model?`<br>${item.model}`:"";
