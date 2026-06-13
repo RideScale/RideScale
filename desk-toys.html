@@ -16,30 +16,45 @@
   </header>
 
   <main class="page">
-    <h1><span>Desk Toys</span>Details</h1>
-    <p>Choose a size to see the price, then add it to your cart.</p>
+    <h1><span>Desk Toys</span> Details</h1>
+
+    <section class="product-gallery desk-toy-gallery">
+      <img src="desk-toy-1.png" alt="3D printed dragon desk toy">
+      <img src="desk-toy-2.png" alt="3D printed soot sprite desk toys">
+      <img src="desk-toy-3.png" alt="3D printed infinity cube desk toy">
+    </section>
+
+    <section class="desk-toy-type-box">
+      <h2>What Desk Toy Do You Want?</h2>
+      <label><input type="radio" name="deskToyType" value="Dragon Desk Toy" checked> Dragon Desk Toy</label>
+      <label><input type="radio" name="deskToyType" value="Soot Sprite / Dust Bunny"> Soot Sprite / Dust Bunny</label>
+      <label><input type="radio" name="deskToyType" value="Infinity Cube"> Infinity Cube</label>
+      <label><input type="radio" name="deskToyType" value="Animal Desk Toy"> Animal Desk Toy</label>
+      <label><input type="radio" name="deskToyType" value="Custom Desk Toy"> Custom Desk Toy</label>
+
+      <div id="customDeskToyBox" class="custom-desk-toy-box">
+        <label>
+          Describe Your Custom Desk Toy
+          <textarea id="customDeskToyText" rows="4" placeholder="Example: dragon, desk pet, game cube, cartoon-style figure, etc."></textarea>
+        </label>
+      </div>
+    </section>
+
+    <p>Choose a desk toy type and size, then add it to your cart.</p>
 
     <section class="size-picker">
       <h2>Pick Your Size</h2>
       <div class="size-options">
-
-        <button class="size-option" data-size="Small" data-dimensions="Up to 2 × 2 × 2 in" data-price="5">
-          <strong>Small</strong>
-          <span>Up to 2 × 2 × 2 in</span>
-          <b>$5</b>
-        </button>
         <button class="size-option" data-size="Medium" data-dimensions="Up to 4 × 4 × 4 in" data-price="8">
-          <strong>Medium</strong>
-          <span>Up to 4 × 4 × 4 in</span>
-          <b>$8</b>
+          <strong>Medium</strong><span>Up to 4 × 4 × 4 in</span><b>$8</b>
         </button>
         <button class="size-option" data-size="Large" data-dimensions="Up to 6 × 6 × 6 in" data-price="12">
-          <strong>Large</strong>
-          <span>Up to 6 × 6 × 6 in</span>
-          <b>$12</b>
+          <strong>Large</strong><span>Up to 6 × 6 × 6 in</span><b>$12</b>
         </button>
       </div>
-      <p id="selectedPrice" class="selected-price">Selected: <strong>None</strong></p>
+
+      <p id="selectedPrice" class="selected-price">Selected Size: <strong>None</strong></p>
+
       <div class="cart-actions">
         <button id="addToCartBtn" class="cart-button" disabled>Add to Cart</button>
         <a class="cart-link" href="cart.html">View Cart</a>
