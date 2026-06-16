@@ -17,7 +17,7 @@
 
   <main class="page">
     <h1><span>Checkout</span> Request</h1>
-    <p class="note">Fill this out first so I know what to make and where to deliver it. After submitting, you will be sent to Square to pay.</p>
+    <p class="note">Fill out your delivery location first. Everything else is optional. After submitting, you will be sent to Square to pay.</p>
 
     <iframe name="hiddenFormFrame" id="hiddenFormFrame" style="display:none;"></iframe>
 
@@ -41,7 +41,7 @@
 
         <label>
           Frame Color
-          <select name="Frame Color" required>
+          <select name="Frame Color">
             <option value="">Choose frame color</option>
             <option value="Black">Black</option>
             <option value="White">White</option>
@@ -53,7 +53,7 @@
 
         <label>
           Accessories Color
-          <select name="Accessories Color" required>
+          <select name="Accessories Color">
             <option value="">Choose accessories color</option>
             <option value="Black">Black</option>
             <option value="White">White</option>
@@ -65,7 +65,7 @@
 
         <label>
           Handlebar Grip Color
-          <select name="Handlebar Grip Color" required>
+          <select name="Handlebar Grip Color">
             <option value="">Choose handlebar grip color</option>
             <option value="Black">Black</option>
             <option value="White">White</option>
@@ -78,10 +78,16 @@
 
       <section class="address-box">
         <h2>Delivery Location</h2>
-        <p>Put your house number or a simple delivery/pickup location so I know where to bring the order.</p>
+        <p>This is the only required field.</p>
+
         <label>
           House Number or Location
-          <input type="text" name="House Number or Location" placeholder="Example: House #123, clubhouse, front porch, or pickup spot" required minlength="1">
+          <input
+            type="text"
+            name="House Number or Location"
+            placeholder="Example: House #123, clubhouse, front porch, or pickup spot"
+            required
+            minlength="1">
         </label>
       </section>
 
