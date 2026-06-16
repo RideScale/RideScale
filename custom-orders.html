@@ -79,15 +79,9 @@
       <section class="address-box">
         <h2>Delivery Location</h2>
         <p>Put your house number or a simple delivery/pickup location so I know where to bring the order.</p>
-
         <label>
           House Number or Location
-          <input
-            type="text"
-            name="House Number or Location"
-            placeholder="Example: House #123, clubhouse, front porch, or pickup spot"
-            required
-            minlength="1">
+          <input type="text" name="House Number or Location" placeholder="Example: House #123, clubhouse, front porch, or pickup spot" required minlength="1">
         </label>
       </section>
 
@@ -112,9 +106,7 @@
       <p id="paymentMessage" class="note small-note" style="display:none;">Order submitted. Opening Square payment...</p>
     </form>
 
-    <p class="note small-note">
-      Your order details are sent first, then Square payment opens.
-    </p>
+    <p class="note small-note">Your order details are sent first, then Square payment opens.</p>
   </main>
 
   <footer>© 2026 RideScale.</footer>
@@ -141,8 +133,16 @@
 
       if (cart.length === 1) {
         const item = cart[0];
-        const key = item.product + "|" + item.model + "|" + item.size;
-        if (squareLinks[key]) return squareLinks[key];
+        let model = item.model || "";
+
+        const directKey = item.product + "|" + model + "|" + item.size;
+        if (squareLinks[directKey]) return squareLinks[directKey];
+
+        if (item.product === "Fidgets") {
+          if (item.size === "Small") return "https://square.link/u/oR2rVP5i";
+          if (item.size === "Medium") return "https://square.link/u/FilhefkV";
+          if (item.size === "Large") return "https://square.link/u/sW19VM30";
+        }
       }
 
       return "https://square.link/u/QlymTvTh";
@@ -189,7 +189,7 @@
         }).join("");
 
         totalBox.textContent = "$" + total;
-        summaryInput.value = summaryLines.join("\n");
+        summaryInput.value = summaryLines.join("\\n");
         totalInput.value = "$" + total;
       }
 
