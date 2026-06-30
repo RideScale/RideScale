@@ -1,0 +1,158 @@
+/* FIFA homepage button */
+.fifa-home-button {
+  font-size: 30px !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  background: linear-gradient(90deg, #ff004c, #00e5ff, #00ff85, #ffcc00, #ff004c) !important;
+  background-size: 300% 300% !important;
+  border: 3px solid #ffffff !important;
+  box-shadow: 0 0 16px #ff004c, 0 0 28px #00e5ff, 0 0 40px #00ff85 !important;
+  animation: fifaGlow 4s linear infinite !important;
+}
+
+@keyframes fifaGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.fifa-page {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.fifa-hero {
+  text-align: center;
+  background: radial-gradient(circle, rgba(0,229,255,.22), rgba(255,0,76,.12), rgba(0,0,0,0));
+  border: 2px solid #ffffff;
+  border-radius: 22px;
+  padding: 28px;
+  margin: 20px auto 30px;
+}
+
+.fifa-hero h1 {
+  font-size: 54px;
+  margin: 0;
+  color: #ffffff;
+}
+
+.fifa-hero h1 span {
+  color: #00e5ff;
+  text-shadow: 0 0 15px #00e5ff, 0 0 30px #ff004c;
+}
+
+.fifa-hero p {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.bracket-scroll {
+  overflow-x: auto;
+  padding: 20px 0;
+}
+
+.bracket {
+  display: flex;
+  gap: 22px;
+  min-width: 1300px;
+  align-items: flex-start;
+}
+
+.round {
+  min-width: 240px;
+  background: #090909;
+  border: 2px solid #222;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 0 24px rgba(0,229,255,.12);
+}
+
+.round h2 {
+  color: #ffffff;
+  text-align: center;
+  font-size: 22px;
+  margin: 8px 0 16px;
+}
+
+.match {
+  background: #ffffff;
+  color: #111111;
+  border-left: 6px solid #00e5ff;
+  border-radius: 12px;
+  margin: 10px 0;
+  padding: 10px;
+  font-weight: 800;
+  box-shadow: 0 0 14px rgba(0,229,255,.16);
+}
+
+.match span {
+  display: block;
+  padding: 6px 4px;
+  border-bottom: 1px solid #ddd;
+}
+
+.match span:last-child {
+  border-bottom: none;
+}
+
+.match.tall {
+  margin: 28px 0;
+}
+
+.match.taller {
+  margin: 66px 0;
+}
+
+.match.semi {
+  margin: 150px 0;
+}
+
+.final-match {
+  margin-top: 310px;
+}
+
+.champion-box {
+  background: linear-gradient(135deg, #ffcc00, #ffffff);
+  color: #111111;
+  border-radius: 18px;
+  padding: 18px;
+  text-align: center;
+  margin-top: 30px;
+  box-shadow: 0 0 35px rgba(255,204,0,.45);
+}
+
+.champion-box h2 {
+  color: #111111;
+  margin: 0;
+}
+
+.champion-box p {
+  font-size: 46px;
+  margin: 10px 0 0;
+}
+
+.fifa-note-box {
+  background: #ffffff;
+  color: #111111;
+  border: 2px solid #00e5ff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 30px auto;
+  max-width: 800px;
+  text-align: center;
+}
+
+.fifa-note-box h2 {
+  color: #111111;
+  margin-top: 0;
+}
+
+@media (max-width: 800px) {
+  .fifa-hero h1 {
+    font-size: 40px;
+  }
+
+  .fifa-home-button {
+    font-size: 26px !important;
+  }
+}
